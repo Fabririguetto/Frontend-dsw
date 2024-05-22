@@ -1,16 +1,35 @@
 import './App.css';
 
+
 function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <p>
-          no hicimos nada todavia
-        </p>
-        <img src='https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExZDkwNzV2cDdtbzM3MnFrczJqb2V5bjJmcnRiZm9oOG15OWx0Z2cxZyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/RLW9YEaSBfBMt79fm4/giphy.gif'/>
+        <button id="stock" onclick={handleClickStock}> Stock </button>
+        <button id="venta" onclick={handleClickStock}> venta </button>
+        <button id="clientes" onclick={handleClickStock}> clientes </button>
+        <button id="empleados" onclick={handleClickStock}> empleados </button>
+        <button id="sucursales" onclick={handleClickStock}> sucursales </button>
       </header>
     </div>
   );
 }
+
+const handleClickStock = () => {
+  window.location.href = '/forms/stock.jsx';
+}
+const handleClickVenta = () => {
+  window.location.href = '/forms/venta.jsx';
+}
+const handleClickClientes = () => {
+  window.location.href = '/forms/clientes.jsx';
+}
+const handleClickEmpleados = () => {
+  window.location.href = '/forms/empleados.jsx';
+}
+const handleClickSucursales = () => {
+  window.location.href = '/forms/sucursales.jsx';
+}
+
 
 export default App;
