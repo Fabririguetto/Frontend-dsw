@@ -4,12 +4,9 @@ import './indice.css';
 import Aplicacion from './Aplicacion';
 import { BrowserRouter } from "react-router-dom";
 
-
-import stock from "./forms/stock"
-
 ReactDOM.render(
   <BrowserRouter>
     <Aplicacion />
   </BrowserRouter>,
-  document.getElementById("")
+  document.getElementById('root') // Cambia 'root' al id de tu elemento HTML donde quieres renderizar la app
 );
