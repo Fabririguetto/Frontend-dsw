@@ -12,14 +12,27 @@ function FormSucursales() {
     fetch('http://localhost:3500/sucursales')
       .then((response) => response.json())
       .then((sucursales) => {
-        setSucursales(sucursales);
+        if (Array.isArray(sucursales)) {
+          setSucursales(sucursales);
+        } else {
+          setSucursales([]); // En caso de que la respuesta no sea un array
+        }
       })
       .catch((error) => {
         console.error('Error fetching sucursales:', error);
+        setSucursales([]); // En caso de error, establecer sucursales como un array vacío
       });
   };
 
   const renderSucursales = () => {
+    if (sucursales.length === 0) {
+      return (
+        <tr>
+          <td colSpan="3">No hay sucursales disponibles</td>
+        </tr>
+      );
+    }
+
     return sucursales.map((sucursal) => (
       <tr key={sucursal.idSucursal}>
         <td>{sucursal.idSucursal}</td>

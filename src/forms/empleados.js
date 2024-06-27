@@ -12,14 +12,27 @@ function FormEmpleados() {
     fetch('http://localhost:3500/empleados')
       .then((response) => response.json())
       .then((empleados) => {
-        setEmpleados(empleados);
+        if (Array.isArray(empleados)) {
+          setEmpleados(empleados);
+        } else {
+          setEmpleados([]); // En caso de que la respuesta no sea un array
+        }
       })
       .catch((error) => {
         console.error('Error fetching empleados:', error);
+        setEmpleados([]); // En caso de error, establecer empleados como un array vacío
       });
   };
 
   const renderEmpleados = () => {
+    if (empleados.length === 0) {
+      return (
+        <tr>
+          <td colSpan="4">No hay empleados disponibles</td>
+        </tr>
+      );
+    }
+
     return empleados.map((empleado) => (
       <tr key={empleado.DNI_CUIL}>
         <td>{empleado.DNI_CUIL}</td>

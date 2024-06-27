@@ -12,14 +12,27 @@ function FormVentas() {
     fetch('http://localhost:3500/ventas')
       .then((response) => response.json())
       .then((ventas) => {
-        setVentas(ventas);
+        if (Array.isArray(ventas)) {
+          setVentas(ventas);
+        } else {
+          setVentas([]); // En caso de que la respuesta no sea un array
+        }
       })
       .catch((error) => {
         console.error('Error fetching ventas:', error);
+        setVentas([]); // En caso de error, establecer ventas como un array vacío
       });
   };
 
   const renderVentas = () => {
+    if (ventas.length === 0) {
+      return (
+        <tr>
+          <td colSpan="4">No hay ventas disponibles</td>
+        </tr>
+      );
+    }
+
     return ventas.map((venta) => (
       <tr key={venta.idVenta}>
         <td>{venta.idVenta}</td>

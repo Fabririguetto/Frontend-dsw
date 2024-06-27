@@ -12,14 +12,27 @@ function FormClientes() {
     fetch('http://localhost:3500/clientes')
       .then((response) => response.json())
       .then((clientes) => {
-        setClientes(clientes);
+        if (Array.isArray(clientes)) {
+          setClientes(clientes);
+        } else {
+          setClientes([]); // En caso de que la respuesta no sea un array
+        }
       })
       .catch((error) => {
         console.error('Error fetching clientes:', error);
+        setClientes([]); // En caso de error, establecer clientes como un array vacío
       });
   };
 
   const renderClientes = () => {
+    if (clientes.length === 0) {
+      return (
+        <tr>
+          <td colSpan="5">No hay clientes disponibles</td>
+        </tr>
+      );
+    }
+
     return clientes.map((cliente) => (
       <tr key={cliente.idCliente}>
         <td>{cliente.idCliente}</td>
