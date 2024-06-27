@@ -1,29 +1,57 @@
+import React, { useEffect, useState } from 'react';
 import '../App.css';
 
-function formstock() {
-    return (
-      <div className="App">
-        <header className="App-header">
-          <input type="text" id="filtro" placeholder="Buscar..."/>
-          
-      <div class="tabla-container">
-        <table id="tabla-prod" class="tabla-negra">
+function FormVentas() {
+  const [ventas, setVentas] = useState([]);
+
+  useEffect(() => {
+    fetchVentas();
+  }, []);
+
+  const fetchVentas = () => {
+    fetch('http://localhost:3500/ventas')
+      .then((response) => response.json())
+      .then((ventas) => {
+        setVentas(ventas);
+      })
+      .catch((error) => {
+        console.error('Error fetching ventas:', error);
+      });
+  };
+
+  const renderVentas = () => {
+    return ventas.map((venta) => (
+      <tr key={venta.idVenta}>
+        <td>{venta.idVenta}</td>
+        <td>{venta.montoTotal}</td>
+        <td>{venta.sucursal}</td>
+        <td>{venta.pCliente}</td>
+      </tr>
+    ));
+  };
+
+  return (
+    <div className="App">
+      <header className="App-header">
+        <input type="text" id="filtro" placeholder="Buscar..." />
+      </header>
+      <div className="tabla-container">
+        <table id="tabla-ventas" className="tabla-negra">
           <thead>
             <tr>
-              <th class="columna">Productos</th>
-              <th class="columna">Descripcion</th>
-              <th class="columna">cantidad</th>
-              <th class="columna">Precio de venta</th>
+              <th className="columna">ID Venta</th>
+              <th className="columna">Monto Total</th>
+              <th className="columna">Sucursal</th>
+              <th className="columna">Cliente</th>
             </tr>
           </thead>
-        <tbody class="cuerpo-tabla">
+          <tbody className="cuerpo-tabla">
+            {renderVentas()}
           </tbody>
-          </table>
+        </table>
       </div>
-  
-        </header>
-      </div>
-    );
-  }
+    </div>
+  );
+}
 
-export default formstock;
+export default FormVentas;

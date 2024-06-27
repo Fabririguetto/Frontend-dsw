@@ -1,12 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './indice.css';
-import Aplicacion from './Aplicacion';
+import App from './App'; // Asegúrate de que la ruta sea correcta
 import { BrowserRouter } from "react-router-dom";
 
 ReactDOM.render(
   <BrowserRouter>
-    <Aplicacion />
+    <App />
   </BrowserRouter>,
-  document.getElementById('root') // Cambia 'root' al id de tu elemento HTML donde quieres renderizar la app
+  document.getElementById('root') // Asegúrate de que el ID del elemento HTML sea correcto
 );

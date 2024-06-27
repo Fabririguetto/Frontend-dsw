@@ -19,13 +19,16 @@ function App() {
             <Link to="/empleados">Empleados</Link>
           </nav>
         </header>
-        <Routes>
-          <Route path="/stock" element={<Stock />} />
-          <Route path="/clientes" element={<Clientes />} />
-          <Route path="/sucursales" element={<Sucursales />} />
-          <Route path="/ventas" element={<Ventas />} />
-          <Route path="/empleados" element={<Empleados />} />
-        </Routes>
+       
+        <div className="Content">
+          <Routes>
+            <Route path="/stock" element={<Stock />} />
+            <Route path="/clientes" element={<Clientes />} />
+            <Route path="/sucursales" element={<Sucursales />} />
+            <Route path="/ventas" element={<Ventas />} />
+            <Route path="/empleados" element={<Empleados />} />
+          </Routes>
+        </div>
       </div>
     </BrowserRouter>
   );

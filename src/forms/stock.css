@@ -1,0 +1,106 @@
+/* Estilos generales */
+.App {
+    text-align: center;
+    font-family: Arial, sans-serif;
+    padding: 20px;
+    background-color: #f4f4f9;
+  }
+  
+  .App-header {
+    background-color: #282c34;
+    color: white;
+    padding: 20px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+  }
+  
+  .App-header input {
+    padding: 10px;
+    margin: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  input[type="text"] {
+    width: 200px;
+    padding: 10px;
+    margin: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  button {
+    background-color: #4caf50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin: 10px;
+    font-size: 16px;
+  }
+  
+  button:hover {
+    background-color: #45a049;
+  }
+  
+  /* Estilos de la tabla */
+  .tabla-container {
+    overflow-x: auto;
+  }
+  
+  .tabla-negra {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 18px;
+    text-align: left;
+  }
+  
+  .tabla-negra thead tr {
+    background-color: #333;
+    color: white;
+  }
+  
+  .tabla-negra th, .tabla-negra td {
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+  }
+  
+  .tabla-negra tbody tr:nth-child(even) {
+    background-color: #f2f2f2;
+  }
+  
+  .tabla-negra tbody tr:hover {
+    background-color: #ddd;
+  }
+  
+  .columna {
+    background-color: #f4f4f4;
+    color: #333;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .tabla-negra thead {
+      display: none;
+    }
+    .tabla-negra tbody {
+      display: block;
+    }
+    .tabla-negra tbody tr {
+      display: flex;
+      flex-wrap: wrap;
+      padding: 10px 0;
+    }
+    .tabla-negra td {
+      display: flex;
+      flex: 1 1 100%;
+      justify-content: space-between;
+      padding: 10px;
+      border-bottom: 1px solid #ddd;
+    }
+  }
+  
