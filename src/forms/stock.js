@@ -56,6 +56,48 @@ function Formstock() {
         console.error('Error al ingresar el producto:', error);
       });
   };
+  
+  const handleSearch = async (event) => {
+    //event.preventDefault();
+  
+    // Realizar la búsqueda por nombre del producto
+    const nombreProducto = articulo;
+  
+    // Construir la URL de búsqueda con parámetros de consulta
+    let url = `http://localhost:3500/productos`;
+    let filtro = url;
+  
+    if (nombreProducto) {
+      filtro += `?nombre=${encodeURIComponent(nombreProducto)}`;
+    }
+  
+    try {
+      const response = await fetch(filtro, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+  
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+  
+      const productos = await response.json();
+      console.log('Productos encontrados:', productos);
+  
+      // Aquí puedes manejar los productos encontrados, por ejemplo, actualizar el estado
+      if (Array.isArray(productos)) {
+        setProductos(productos);
+      } else {
+        setProductos([]); // En caso de que la respuesta no sea un array
+      }
+  
+    } catch (error) {
+      console.error('Error al buscar productos:', error);
+      setProductos([]); // En caso de error, establecer productos como un array vacío
+    }
+  };
 
   const renderProductos = () => {
     if (productos.length === 0) {
@@ -79,7 +121,10 @@ function Formstock() {
   return (
     <div className="App">
       <header className="App-header">
-        <input type="text" id="filtro" placeholder="Buscar..." />
+        <input type="text"
+         id="filtro"
+         placeholder="Buscar..." 
+         onChange={(e) => handleSearch(e.target.value)}/>
       </header>
       <form onSubmit={handleSubmit}>
         <input
