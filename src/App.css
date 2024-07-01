@@ -8,7 +8,8 @@
   align-items: center;
   justify-content: flex-start; /* Inicia el contenido desde arriba */
   margin: 0;
-  padding: 0;
+  padding: 10px;
+  width: 98vw;
 }
 
 /* Estilo del encabezado */
@@ -78,6 +79,7 @@ table {
   border-collapse: collapse;
   margin-bottom: 20px;
 }
+
 
 th, td {
   padding: 12px;
