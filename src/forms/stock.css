@@ -86,10 +86,18 @@
   /* Responsive Design */
   @media (max-width: 768px) {
     .tabla-negra thead {
-      display: none;
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+      font-size: 18px;
+      text-align: left;
     }
     .tabla-negra tbody {
       display: block;
+    }
+    .tabla-negra th, .tabla-negra td {
+      padding: 12px 15px;
+      border: 1px solid #ddd;
     }
     .tabla-negra tbody tr {
       display: flex;
