@@ -47,7 +47,8 @@
   /* Estilos de la tabla */
   .tabla-container {
     overflow-x: auto;
-    width: 90vw;      
+    width: 90vw; 
+    height: 50vh;     
   }
   
   .tabla-negra {

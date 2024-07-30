@@ -8,6 +8,7 @@ function Formstock() {
   const [descripcion, setDescripcion] = useState('');
   const [cantidad, setCantidad] = useState('');
   const [monto, setMonto] = useState('');
+  const [idProducto, setIdProducto] = useState(''); // Nuevo estado para idProducto
 
   useEffect(() => {
     fetchProductos();
@@ -32,38 +33,55 @@ function Formstock() {
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    const nuevoProducto = {
+    const producto = {
       articulo: articulo,
       descripcion: descripcion,
       cantidad: cantidad,
-      monto: monto, // Asegúrate de enviar "monto" en lugar de "precio"
+      monto: monto,
     };
 
-    fetch('http://localhost:3500/productos', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(nuevoProducto),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log('Producto ingresado correctamente:', data);
-        fetchProductos();
-        setArticulo('');
-        setDescripcion('');
-        setCantidad('');
-        setMonto('');
+    if (idProducto) {
+      // Modificar producto
+      fetch(`http://localhost:3500/productos/${idProducto}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(producto),
       })
-      .catch((error) => {
-        console.error('Error al ingresar el producto:', error);
-      });
+        .then((response) => response.json())
+        .then((data) => {
+          console.log('Producto modificado correctamente:', data);
+          fetchProductos();
+          resetForm();
+        })
+        .catch((error) => {
+          console.error('Error al modificar el producto:', error);
+        });
+    } else {
+      // Insertar nuevo producto
+      fetch('http://localhost:3500/productos', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(producto),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          console.log('Producto ingresado correctamente:', data);
+          fetchProductos();
+          resetForm();
+        })
+        .catch((error) => {
+          console.error('Error al ingresar el producto:', error);
+        });
+    }
   };
 
   const handleSearch = async (event) => {
     const nombreProducto = event.target.value;
 
-    // Construir la URL de búsqueda con parámetros de consulta
     let url = `http://localhost:3500/productos`;
     if (nombreProducto) {
       url += `?producto=${encodeURIComponent(nombreProducto)}`;
@@ -96,15 +114,31 @@ function Formstock() {
     }
   };
 
+  const handleEdit = (producto) => {
+    setIdProducto(producto.idProducto);
+    setArticulo(producto.articulo);
+    setDescripcion(producto.descripcion);
+    setCantidad(producto.cantidad);
+    setMonto(producto.monto);
+  };
+
+  const resetForm = () => {
+    setIdProducto('');
+    setArticulo('');
+    setDescripcion('');
+    setCantidad('');
+    setMonto('');
+  };
+
   const renderProductos = () => {
     if (productos.length === 0) {
       return (
         <tr>
-          <td colSpan="5">No hay productos disponibles</td>
+          <td colSpan="6">No hay productos disponibles</td>
         </tr>
       );
     }
-  
+
     return productos.map((producto) => (
       <tr key={producto.idProducto}>
         <td>{producto.idProducto}</td>
@@ -112,21 +146,33 @@ function Formstock() {
         <td>{producto.descripcion}</td>
         <td>{producto.cantidad}</td>
         <td>{producto.monto || 'No disponible'}</td>
+        <td>
+          <button height='1px' onClick={() => handleEdit(producto)}>
+            Modificar
+          </button>
+        </td>
       </tr>
     ));
   };
 
   return (
     <div className="App">
-      <header className="App-header" >
+      <header className="App-header">
         <input
           type="text"
-          id="filtro" 
+          id="filtro"
           placeholder="Buscar..."
           onChange={handleSearch}
         />
-        </header>
+      </header>
       <form onSubmit={handleSubmit}>
+        <input
+          type="text"
+          id="idProducto"
+          placeholder="ID Producto"
+          value={idProducto}
+          readOnly
+        />
         <input
           type="text"
           id="Articulo"
@@ -151,21 +197,24 @@ function Formstock() {
         <input
           type="text"
           id="monto"
-          placeholder="monto"
+          placeholder="Monto"
           value={monto}
           onChange={(e) => setMonto(e.target.value)}
         />
-        <button type="submit" id="ingresarstock">Ingresar</button>
+        <button type="submit" id="ingresarstock">
+          {idProducto ? 'Modificar' : 'Ingresar'}
+        </button>
       </form>
       <div className="tabla-container">
         <table id="tabla-prod" className="tabla-negra">
           <thead>
             <tr>
-              <th className='columna'>idProducto</th>
-              <th className="columna">Productos</th>
+              <th className='columna'>ID Producto</th>
+              <th className="columna">Artículo</th>
               <th className="columna">Descripción</th>
               <th className="columna">Cantidad</th>
               <th className="columna">Precio de venta</th>
+              <th className="columna">Acciones</th>
             </tr>
           </thead>
           <tbody className="cuerpo-tabla">
