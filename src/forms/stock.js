@@ -66,7 +66,7 @@ function Formstock() {
     // Construir la URL de búsqueda con parámetros de consulta
     let url = `http://localhost:3500/productos`;
     if (nombreProducto) {
-      url += `?nombre=${encodeURIComponent(nombreProducto)}`;
+      url += `?producto=${encodeURIComponent(nombreProducto)}`;
     }
 
     try {
@@ -118,14 +118,14 @@ function Formstock() {
 
   return (
     <div className="App">
-      <header className="App-header">
+      <header className="App-header" >
         <input
           type="text"
-          id="filtro"
+          id="filtro" 
           placeholder="Buscar..."
           onChange={handleSearch}
         />
-      </header>
+        </header>
       <form onSubmit={handleSubmit}>
         <input
           type="text"

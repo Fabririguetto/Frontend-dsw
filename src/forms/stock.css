@@ -82,6 +82,10 @@
     padding: 10px;
     border-bottom: 1px solid #ddd;
   }
+
+  #filtro {
+    width: 100%;
+  }
   
   /* Responsive Design */
   @media (max-width: 768px) {
