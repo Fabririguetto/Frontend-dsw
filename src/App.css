@@ -7,9 +7,8 @@
   flex-direction: column;
   align-items: center;
   justify-content: flex-start; /* Inicia el contenido desde arriba */
-  margin: 0;
-  padding: 10px;
-  width: 98vw;
+  width: 100vw;
+  height: 90vw;
 }
 
 /* Estilo del encabezado */
@@ -19,9 +18,9 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
   color: white;
-  padding: 0px;
+  padding: 5px 40px; /* Aumenta el padding horizontal para más espacio en pantallas grandes */    
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
@@ -58,8 +57,6 @@ nav a:hover {
 /* Estilo del contenido principal */
 .Content {
   width: 100%;
-  max-width: 1200px; /* Limita el ancho máximo del contenido */
-  padding: 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -124,11 +121,11 @@ input[type="text"]:focus {
   .App-header {
     flex-direction: row;
     justify-content: space-between;
-    padding: 20px 40px; /* Aumenta el padding horizontal para más espacio en pantallas grandes */
+    padding: 5px 40px; /* Aumenta el padding horizontal para más espacio en pantallas grandes */    
   }
 
   nav {
-    justify-content: flex-end; /* Alinea los enlaces de navegación a la derecha en pantallas grandes */
+    justify-content: center; /* Alinea los enlaces de navegación a la derecha en pantallas grandes */
     gap: 40px; /* Aumenta el espacio entre los enlaces de navegación */
   }
 

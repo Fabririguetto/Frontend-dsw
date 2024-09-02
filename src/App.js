@@ -13,11 +13,11 @@ function App() {
         <header className="App-header">
           <nav>
             <Link to="/stock">Stock</Link>
-            <Link to="/clientes">Clientes</Link>
-            <Link to="/sucursales">Sucursales</Link>
             <Link to="/ventas">Ventas</Link>
+            <Link to="/clientes">Clientes</Link>
             <Link to="/empleados">Empleados</Link>
-          </nav>
+            <Link to="/sucursales">Sucursales</Link>
+            </nav>
         </header>
        
         <div className="Content">
