@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import '../App.css';
+import FormDetalleVentas from './detalle_Venta'; // Asegúrate de que esta ruta sea correcta
 
 function FormVentas() {
   const [ventas, setVentas] = useState([]);
-
+  const [ventaSeleccionada, setVentaSeleccionada] = useState(null); // Venta seleccionada
+  const [mostrarDetalle, setMostrarDetalle] = useState(false); // Controla la visibilidad de la subventana
+  
   useEffect(() => {
     fetchVentas();
   }, []);
@@ -24,11 +27,26 @@ function FormVentas() {
       });
   };
 
+  const handleDetalleClick = (venta) => {
+    setVentaSeleccionada(venta); // Establece la venta seleccionada
+    setMostrarDetalle(true); // Muestra la subventana
+  };
+
+  const handleNuevaVentaClick = () => {
+    setVentaSeleccionada(null); // Limpia cualquier venta seleccionada (nueva venta)
+    setMostrarDetalle(true); // Muestra la subventana
+  };
+
+  const cerrarDetalle = () => {
+    setMostrarDetalle(false); // Oculta la subventana
+    setVentaSeleccionada(null); // Limpia la venta seleccionada
+  };
+
   const renderVentas = () => {
     if (ventas.length === 0) {
       return (
         <tr>
-          <td colSpan="4">No hay ventas disponibles</td>
+          <td colSpan="5">No hay ventas disponibles</td>
         </tr>
       );
     }
@@ -39,6 +57,9 @@ function FormVentas() {
         <td>{venta.montoTotal}</td>
         <td>{venta.sucursal}</td>
         <td>{venta.pCliente}</td>
+        <td>
+          <button onClick={() => handleDetalleClick(venta)}>Detalle</button>
+        </td>
       </tr>
     ));
   };
@@ -47,6 +68,9 @@ function FormVentas() {
     <div className="App">
       <header className="App-header">
         <input type="text" id="filtro" placeholder="Buscar..." />
+        <button type='button' id='newVen' onClick={handleNuevaVentaClick}>
+          Nueva Venta
+        </button>
       </header>
       <div className="tabla-container">
         <table id="tabla-ventas" className="tabla-negra">
@@ -56,6 +80,7 @@ function FormVentas() {
               <th className="columna">Monto Total</th>
               <th className="columna">Sucursal</th>
               <th className="columna">Cliente</th>
+              <th className="columna">Acciones</th>
             </tr>
           </thead>
           <tbody className="cuerpo-tabla">
@@ -63,6 +88,14 @@ function FormVentas() {
           </tbody>
         </table>
       </div>
+
+      {/* Subventana para mostrar detalle de ventas */}
+      {mostrarDetalle && (
+        <FormDetalleVentas
+          venta={ventaSeleccionada}
+          onClose={cerrarDetalle}
+        />
+      )}
     </div>
   );
 }
