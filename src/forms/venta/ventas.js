@@ -1,12 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import '../App.css';
+import '../../App.css';
 import FormDetalleVentas from './detalle_Venta'; // Asegúrate de que esta ruta sea correcta
+import { useNavigate } from 'react-router-dom';
+
 
 function FormVentas() {
   const [ventas, setVentas] = useState([]);
   const [ventaSeleccionada, setVentaSeleccionada] = useState(null); // Venta seleccionada
   const [mostrarDetalle, setMostrarDetalle] = useState(false); // Controla la visibilidad de la subventana
   
+  const navigate = useNavigate();
+
   useEffect(() => {
     fetchVentas();
   }, []);
@@ -33,8 +37,7 @@ function FormVentas() {
   };
 
   const handleNuevaVentaClick = () => {
-    setVentaSeleccionada(null); // Limpia cualquier venta seleccionada (nueva venta)
-    setMostrarDetalle(true); // Muestra la subventana
+    navigate('/detallecargaventa');
   };
 
   const cerrarDetalle = () => {

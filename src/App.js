@@ -1,10 +1,10 @@
 import React from 'react';
 import { BrowserRouter, Link, Route, Routes } from 'react-router-dom';
-import Stock from './forms/stock';
-import Clientes from './forms/clientes';
-import Sucursales from './forms/sucursales';
-import Ventas from './forms/ventas';
-import Empleados from './forms/empleados';
+import Stock from './forms/stock/stock';
+import Clientes from './forms/clientes/clientes';
+import Sucursales from './forms/sucursales/sucursales';
+import Ventas from './forms/venta/ventas';
+import Empleados from './forms/empleados/empleados';
 
 function App() {
   return (

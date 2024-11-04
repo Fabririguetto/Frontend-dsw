@@ -1,28 +1,10 @@
-import React, { useEffect, useState } from 'react';
-import '../App.css';
+// src/components/FormSucursales.js
+import React from 'react';
+import '../../App.css';
+import useSucursales from '../../hooks/useHookSuc'; // Asegúrate de importar el hook
 
 function FormSucursales() {
-  const [sucursales, setSucursales] = useState([]);
-
-  useEffect(() => {
-    fetchSucursales();
-  }, []);
-
-  const fetchSucursales = () => {
-    fetch('http://localhost:3500/sucursales')
-      .then((response) => response.json())
-      .then((sucursales) => {
-        if (Array.isArray(sucursales)) {
-          setSucursales(sucursales);
-        } else {
-          setSucursales([]); // En caso de que la respuesta no sea un array
-        }
-      })
-      .catch((error) => {
-        console.error('Error fetching sucursales:', error);
-        setSucursales([]); // En caso de error, establecer sucursales como un array vacío
-      });
-  };
+  const sucursales = useSucursales(); // Usar el hook para obtener sucursales
 
   const renderSucursales = () => {
     if (sucursales.length === 0) {
