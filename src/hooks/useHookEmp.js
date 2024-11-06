@@ -39,6 +39,7 @@ const useEmpleados = () => {
   };
 
   const createEmpleado = (empleado) => {
+    console.log('Contenido del empleado antes de enviar:', empleado);
     fetch('http://localhost:3500/empleados', {
       method: 'POST',
       headers: {
@@ -74,11 +75,26 @@ const useEmpleados = () => {
       });
   };
 
-  const handleEdit = (empleado) => {
+  const handleIngresar = () => {
+    const empleado = {
+      dni: dniCuil,
+      nombre_apellidoEmp: nombreApellido,
+      contacto,
+      sucursal,
+    };
+  
+    if (dniCuil) {
+      updateEmpleado(dniCuil, empleado); // Actualiza si ya hay un DNI existente
+    } else {
+      createEmpleado(empleado); // Crea un nuevo empleado
+    }
+  };
+
+  const handleSelectEmpleado = (empleado) => {
     setDniCuil(empleado.DNI_CUIL);
     setNombreApellido(empleado.nombre_apellidoEmp);
     setContacto(empleado.contacto);
-    setSucursal(empleado.sucursal);
+    setSucursal(empleado.idSucursal); // Asegúrate de que el nombre del campo coincida
   };
 
   const resetForm = () => {
@@ -99,9 +115,9 @@ const useEmpleados = () => {
     setNombreApellido,
     setContacto,
     setSucursal,
-    createEmpleado,
+    handleIngresar,
     updateEmpleado,
-    handleEdit,
+    handleSelectEmpleado,
     resetForm,
   };
 };

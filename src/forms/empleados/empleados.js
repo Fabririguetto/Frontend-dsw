@@ -1,5 +1,4 @@
 import React from 'react';
-import '../../App.css';
 import useEmpleados from '../../hooks/useHookEmp';
 
 function FormEmpleados() {
@@ -14,45 +13,39 @@ function FormEmpleados() {
     setNombreApellido,
     setContacto,
     setSucursal,
-    createEmpleado,
-    updateEmpleado,
-    handleEdit,
-    resetForm,
+    handleIngresar,
+    handleSelectEmpleado,
   } = useEmpleados();
-
-  const handleIngresar = (event) => {
-    event.preventDefault();
-
-    const empleado = {
-      dniCuil,
-      nombre_apellidoEmp: nombreApellido,
-      contacto,
-      sucursal,
-    };
-
-    createEmpleado(empleado);
-  };
 
   const renderEmpleados = () => {
     if (empleados.length === 0) {
       return (
-        <tr>
-          <td colSpan="5">No hay empleados disponibles</td>
-        </tr>
+        <div className="card">
+          <p>No hay empleados disponibles</p>
+        </div>
       );
     }
 
-    return empleados.map((empleado) => (
-      <tr key={empleado.DNI_CUIL}>
-        <td>{empleado.DNI_CUIL}</td>
-        <td>{empleado.nombre_apellidoEmp}</td>
-        <td>{empleado.contacto}</td>
-        <td>{empleado.sucursal}</td>
-        <td>
-          <button onClick={() => handleEdit(empleado)}>Modificar</button>
-        </td>
-      </tr>
-    ));
+    return (
+      <div className="card-container">
+        {empleados.map((empleado) => (
+          <div key={empleado.DNI_CUIL} className="card">
+            <h3 className="card-title">{empleado.nombre_apellidoEmp}</h3>
+            <p className="card-text">DNI/CUIL: {empleado.DNI_CUIL}</p>
+            <p className="card-text">Contacto: {empleado.contacto}</p>
+            <p className="card-text">Sucursal: {empleado.nombreSucursal}</p>
+            <div className="button-container">
+              <button className="card-button" onClick={() => handleSelectEmpleado(empleado)}>
+                Modificar
+              </button>
+              <button className="card-button" onClick={() => handleSelectEmpleado(empleado)}>
+                Eiminar
+              </button>
+            </div>
+          </div>
+        ))}
+      </div>
+    );
   };
 
   const renderSucursalesOptions = () => {
@@ -68,7 +61,7 @@ function FormEmpleados() {
       <header className="App-header">
         <input type="text" id="filtro" placeholder="Buscar empleados por nombre o DNI..." />
       </header>
-      <form onSubmit={handleIngresar}>
+      <form onSubmit={(e) => { e.preventDefault(); handleIngresar(); }}>
         <input
           type="text"
           id="dniCuil"
@@ -98,22 +91,12 @@ function FormEmpleados() {
           <option value="">Seleccionar sucursal</option>
           {renderSucursalesOptions()}
         </select>
-        <button type="submit">Ingresar</button>
+        <button type="submit">
+          {dniCuil ? 'Modificar' : 'Ingresar'}
+        </button>
+        
       </form>
-      <div className="tabla-container">
-        <table className="tabla-negra">
-          <thead>
-            <tr>
-              <th>DNI/CUIL</th>
-              <th>Nombre y Apellido</th>
-              <th>Contacto</th>
-              <th>Sucursal</th>
-              <th>Acciones</th>
-            </tr>
-          </thead>
-          <tbody>{renderEmpleados()}</tbody>
-        </table>
-      </div>
+      {renderEmpleados()}
     </div>
   );
 }

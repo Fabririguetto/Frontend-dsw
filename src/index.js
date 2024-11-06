@@ -1,7 +1,7 @@
 import React from 'react';
-import ReactDOM from 'react-dom'; // Asegúrate de importar ReactDOM correctamente
+import ReactDOM from 'react-dom';
 import './index.css';
-import 'bootstrap/dist/css/bootstrap.css'; // Importa estilos de Bootstrap si los necesitas
+import 'bootstrap/dist/css/bootstrap.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 

@@ -1,47 +1,45 @@
 // src/components/FormSucursales.js
 import React from 'react';
 import '../../App.css';
-import useSucursales from '../../hooks/useHookSuc'; // Asegúrate de importar el hook
+import useSucursales from '../../hooks/useHookSuc';
 
 function FormSucursales() {
-  const sucursales = useSucursales(); // Usar el hook para obtener sucursales
+  const sucursales = useSucursales();
 
   const renderSucursales = () => {
     if (sucursales.length === 0) {
       return (
-        <tr>
-          <td colSpan="3">No hay sucursales disponibles</td>
-        </tr>
+        <div className="card">
+          <p>No hay sucursales disponibles</p>
+        </div>
       );
     }
 
-    return sucursales.map((sucursal) => (
-      <tr key={sucursal.idSucursal}>
-        <td>{sucursal.idSucursal}</td>
-        <td>{sucursal.nombreSucursal}</td>
-        <td>{sucursal.direccion}</td>
-      </tr>
-    ));
+    return (
+      <div className="card-container">
+        {sucursales.map((sucursal) => (
+          <div key={sucursal.idSucursal} className="card">
+            <h3 className="card-title">{sucursal.nombreSucursal}</h3>
+            <p className="card-text">ID: {sucursal.idSucursal}</p>
+            <p className="card-text">Dirección: {sucursal.direccion}</p>
+            <div className="card-button-container">
+              <button className="card-button" onClick={() => alert(`Sucursal ${sucursal.nombreSucursal} seleccionada`)}>
+                Ver Detalles
+              </button>
+            </div>
+          </div>
+        ))}
+      </div>
+    );
   };
 
   return (
     <div className="App">
       <header className="App-header">
-        <input type="text" id="filtro" placeholder="Buscar..." />
+        <input type="text" id="filtro" placeholder="Buscar sucursales..." />
       </header>
-      <div className="tabla-container">
-        <table id="tabla-prod" className="tabla-negra">
-          <thead>
-            <tr>
-              <th className="columna">ID Sucursal</th>
-              <th className="columna">Nombre Sucursal</th>
-              <th className="columna">Dirección</th>
-            </tr>
-          </thead>
-          <tbody className="cuerpo-tabla">
-            {renderSucursales()}
-          </tbody>
-        </table>
+      <div className="card-container">
+        {renderSucursales()}
       </div>
     </div>
   );
