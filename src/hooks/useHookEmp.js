@@ -3,11 +3,13 @@ import { useEffect, useState } from 'react';
 
 const useEmpleados = () => {
   const [empleados, setEmpleados] = useState([]);
+  const [selectedEmpleado, setSelectedEmpleado] = useState(null);
   const [sucursales, setSucursales] = useState([]);
   const [dniCuil, setDniCuil] = useState('');
   const [nombreApellido, setNombreApellido] = useState('');
   const [contacto, setContacto] = useState('');
   const [sucursal, setSucursal] = useState('');
+  const [isEditMode, setIsEditMode] = useState(false);
 
   useEffect(() => {
     fetchEmpleados();
@@ -75,34 +77,60 @@ const useEmpleados = () => {
       });
   };
 
-  const handleIngresar = () => {
-    const empleado = {
-      dni: dniCuil,
+const handleIngresar = () => {
+  if (isEditMode) {
+    //Actualizar empleado
+    const updatedEmpleados = empleados.map((empleado) => 
+      empleado.DNI_CUIL === selectedEmpleado.DNI_CUIL
+        ? { ...empleado, nombre_apellidoEmp: nombreApellido, contacto, sucursal }
+        : empleado
+    );
+    setEmpleados(updatedEmpleados);
+    setIsEditMode(false); // Salir del modo de edición
+  } else {
+    //Ingresar nuevo empleado
+    const nuevoEmpleado = {
+      DNI_CUIL: dniCuil,
       nombre_apellidoEmp: nombreApellido,
       contacto,
-      sucursal,
+      nombreSucursal: sucursales.find(suc => suc.idSucursal === sucursal)?.nombreSucursal || '',
+      sucursal: sucursal,
     };
-  
-    if (dniCuil) {
-      updateEmpleado(dniCuil, empleado); // Actualiza si ya hay un DNI existente
-    } else {
-      createEmpleado(empleado); // Crea un nuevo empleado
-    }
-  };
+    setEmpleados([...empleados, nuevoEmpleado]);
+  }
 
-  const handleSelectEmpleado = (empleado) => {
-    setDniCuil(empleado.DNI_CUIL);
-    setNombreApellido(empleado.nombre_apellidoEmp);
-    setContacto(empleado.contacto);
-    setSucursal(empleado.idSucursal); // Asegúrate de que el nombre del campo coincida
-  };
+  //Limpiar el formulario
+  resetForm();
+};
+const handleSelectEmpleado = (empleado) => {
+  setSelectedEmpleado(empleado);
+  setDniCuil(empleado.DNI_CUIL);
+  setNombreApellido(empleado.nombre_apellidoEmp);
+  setContacto(empleado.contacto);
+  setSucursal(empleado.sucursal);
+  setIsEditMode(true);
+};
 
-  const resetForm = () => {
-    setDniCuil('');
-    setNombreApellido('');
-    setContacto('');
-    setSucursal('');
-  };
+//Función para alternar entre el modo de edición y el de nuevo ingreso
+const toggleEditMode = () => {
+  if (isEditMode) {
+    //Si está en modo edición, salir de ese modo
+    setIsEditMode(false);
+    resetForm();
+  } else {
+    //Si no está en modo edición, habilitarlo
+    setIsEditMode(true);
+  }
+};
+
+//Función para restablecer el formulario
+const resetForm = () => {
+  setDniCuil('');
+  setNombreApellido('');
+  setContacto('');
+  setSucursal('');
+};
+
 
   return {
     empleados,
@@ -116,10 +144,12 @@ const useEmpleados = () => {
     setContacto,
     setSucursal,
     handleIngresar,
-    updateEmpleado,
     handleSelectEmpleado,
+    toggleEditMode,
+    isEditMode,
     resetForm,
   };
 };
 
 export default useEmpleados;
+

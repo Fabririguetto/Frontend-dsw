@@ -1,0 +1,55 @@
+/* Estilos para el formulario de clientes */
+#form-clientes {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Estilos para el input de búsqueda de clientes */
+  #filtro-clientes {
+    width: 80%;
+    padding: 10px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #fafafa;
+    margin-bottom: 20px;
+  }
+  
+  /* Estilos para los inputs del formulario */
+  #dni-form, #nombreApellido-form, #direccion-form, #contacto-form {
+    padding: 12px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #fafafa;
+    margin-bottom: 10px;
+  }
+  
+  #ingresarCliente-form {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 12px;
+    cursor: pointer;
+  }
+  
+  #ingresarCliente-form:hover {
+    background-color: #45a049;
+  }
+  
+  /* Estilo para el botón de modificación */
+  #botmod-cliente {
+    background-color: #2196F3;
+    color: white;
+    padding: 6px 12px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  #botmod-cliente:hover {
+    background-color: #1976D2;
+  }

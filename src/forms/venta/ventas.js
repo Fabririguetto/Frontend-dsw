@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import '../../App.css';
 import FormDetalleVentas from './detalle_Venta'; // Asegúrate de que esta ruta sea correcta
 import { useNavigate } from 'react-router-dom';
 
@@ -8,6 +7,7 @@ function FormVentas() {
   const [ventas, setVentas] = useState([]);
   const [ventaSeleccionada, setVentaSeleccionada] = useState(null); // Venta seleccionada
   const [mostrarDetalle, setMostrarDetalle] = useState(false); // Controla la visibilidad de la subventana
+  const [idVenta, setIdVenta] = useState(null);
   
   const navigate = useNavigate();
 
@@ -36,9 +36,45 @@ function FormVentas() {
     setMostrarDetalle(true); // Muestra la subventana
   };
 
-  const handleNuevaVentaClick = () => {
-    navigate('/detallecargaventa');
-  };
+  const iniciarVenta = async () => {
+    const montoTotal = 0;  
+    const DNIEmpleado = '44231125'; 
+    const idCliente = 1;
+    const fechaHoraVenta = new Date().toISOString().slice(0, 19).replace('T', ' ');
+
+    console.log('Datos enviados:', {
+        montoTotal,
+        DNIEmpleado,
+        idCliente,
+        fechaHoraVenta
+    });
+
+    try {
+        const response = await fetch('http://localhost:3500/crearVenta', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                montoTotal,
+                DNIEmpleado,
+                idCliente,
+                fechaHoraVenta
+            })
+        });
+
+        if (response.ok) {
+            const data = await response.json();
+            console.log('Venta creada con éxito:', data);
+        } else {
+            console.error('Error al crear la venta');
+        }
+    } catch (error) {
+        console.error('Error:', error);
+    }
+};
+
+
 
   const cerrarDetalle = () => {
     setMostrarDetalle(false); // Oculta la subventana
@@ -71,7 +107,7 @@ function FormVentas() {
     <div className="App">
       <header className="App-header">
         <input type="text" id="filtro" placeholder="Buscar..." />
-        <button type='button' id='newVen' onClick={handleNuevaVentaClick}>
+        <button type='button' id='newVen' onClick={iniciarVenta}>
           Nueva Venta
         </button>
       </header>
@@ -81,7 +117,7 @@ function FormVentas() {
             <tr>
               <th className="columna">ID Venta</th>
               <th className="columna">Monto Total</th>
-              <th className="columna">Sucursal</th>
+              <th className="columna">Empleado</th>
               <th className="columna">Cliente</th>
               <th className="columna">Acciones</th>
             </tr>

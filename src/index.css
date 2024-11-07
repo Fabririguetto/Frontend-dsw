@@ -1,247 +1,201 @@
-/* Estilo general del cuerpo */
+/* Estilo básico para el cuerpo */
 body {
   margin: 0;
-  font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Oxygen', 'Ubuntu',
-    'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  font-family: 'Roboto', sans-serif;
   background-color: #f5f7fa;
   color: #333;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transition: background-color 0.3s ease;
+  height: 100%;
 }
 
-/* Estilo general para los elementos de código */
-code {
-  font-family: 'Source Code Pro', Menlo, Monaco, Consolas, 'Courier New', monospace;
-}
-
-/* Estilo general para el contenedor principal de la aplicación */
+/* Contenedor principal */
 #root {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
+  min-height: 100vh;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0 2px;
 }
 
-/* Media queries para pantallas más grandes */
-@media (min-width: 768px) {
-  body {
-    background-color: #e9ecef;
-  }
-}
-
-/* Estilo general para la aplicación */
+/* Contenedor de la aplicación */
 .App {
-  font-family: 'Roboto', sans-serif;
-  background-color: #f5f7fa;
-  color: #333;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start; /* Inicia el contenido desde arriba */
-  width: 100vw;
-  height: 90vw;
+  background-color: #fff;
+  color: #000;
+  width: 100%;
+  margin: 0;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.3s ease;
 }
 
-/* Estilo del encabezado */
+.App:hover {
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+}
+
+/* Encabezado */
 .App-header {
   background-color: #1e1e2f;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
   color: white;
-  padding: 5px 40px; /* Aumenta el padding horizontal para más espacio en pantallas grandes */    
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
-
-/* Estilo del logotipo */
-.App-logo {
-  height: 20vmin;
-  pointer-events: none;
-  transition: transform 0.5s ease-in-out;
-}
-
-.App-logo:hover {
-  transform: rotate(360deg);
-}
-
-/* Estilo de los enlaces de navegación */
-nav {
+  padding: 16px;
+  text-align: center;
+  border-radius: 8px 8px 0 0;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   width: 100%;
+}
+
+/* Navegación */
+nav {
   display: flex;
   justify-content: center;
-  gap: 20px;
+  gap: 16px;
+  margin-top: 20px;
 }
 
 nav a {
   color: #61dafb;
   text-decoration: none;
-  font-size: 1.2em;
-  transition: color 0.3s ease-in-out;
+  font-size: 1.1em;
+  font-weight: 500;
+  transition: color 0.3s ease;
 }
 
 nav a:hover {
   color: #21a1f1;
 }
 
-/* Estilo del contenido principal */
-.Content {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-/* Estilo de la tabla y formulario */
-.form-container {
-  width: 100%;
-  background: white;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  border-radius: 10px;
-  padding: 20px;
-}
-
-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-bottom: 20px;
-}
-
-
-th, td {
-  padding: 12px;
-  text-align: left;
-  border-bottom: 1px solid #ddd;
+/* Botones */
+button, .card-button {
   background-color: #1e1e2f;
-  color: white; /* Color de texto para las celdas de encabezado */
-}
-
-tr:hover {
-  background-color: #f1f1f1;
-}
-
-/* Estilo del input */
-input[type="text"] {
-  width: 100%;
-  padding: 12px;
-  margin: 10px 0;
-  box-sizing: border-box;
-  border: 1px solid #ccc;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
   border-radius: 4px;
-  transition: border-color 0.3s ease-in-out;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
-input[type="text"]:focus {
-  border-color: #61dafb;
+button:hover, .card-button:hover {
+  background-color: #61dafb;
+}
+
+button:focus, .card-button:focus {
   outline: none;
+  box-shadow: 0 0 5px #61dafb;
 }
 
-select[type="text"] {
-  width: 100%;
-  padding: 12px;
-  margin: 10px 0;
-  box-sizing: border-box;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  transition: border-color 0.3s ease-in-out;
-}
-
-select[type="text"]:focus {
-  border-color: #61dafb;
-  outline: none;
-}
-
-/* Animación del logotipo */
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-/* Media queries para pantallas más grandes */
-@media (min-width: 768px) {
-  .App-header {
-    flex-direction: row;
-    justify-content: space-between;
-    padding: 5px 40px; /* Aumenta el padding horizontal para más espacio en pantallas grandes */    
-  }
-
-  nav {
-    justify-content: center; /* Alinea los enlaces de navegación a la derecha en pantallas grandes */
-    gap: 40px; /* Aumenta el espacio entre los enlaces de navegación */
-  }
-
-  .Content {
-    width: 100%;
-    align-items: flex-center; /* Alinea el contenido principal hacia arriba */
-  }
-
-  .form-container {
-    margin-top: 0px; /* Aumenta el espacio entre el contenido y el formulario en pantallas grandes */
-  }
-}
-
-
-/* Estilo general para tarjetas (empleados y sucursales) */
+/* Contenedor de tarjetas */
 .card-container {
   display: flex;
   flex-wrap: wrap;
-  gap: 16px; /* Cambié el gap a 16px para que coincida con las tarjetas de empleados */
+  gap: 16px;
   justify-content: center;
-  padding: 16px; /* Cambié el padding para que coincida con el de las tarjetas de empleados */
+  padding: 20px;
+  width: 100%;
 }
 
+/* Tarjetas */
 .card {
-  background-color: #ffffff;
+  background-color: #fff;
   border-radius: 8px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Cambié la sombra para que coincida con las tarjetas de empleados */
-  width: 250px; /* Cambié el ancho para que coincida con las tarjetas de empleados */
-  padding: 16px; /* Cambié el padding para que coincida con las tarjetas de empleados */
-  transition: transform 0.2s ease, box-shadow 0.2s ease; /* Cambié la transición para que coincida */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  max-width: 250px;
+  padding: 16px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15); /* Cambié la sombra al hacer hover para que coincida */
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
 }
 
 .card-title {
   font-size: 1.2em;
   font-weight: bold;
   color: #333;
-  margin: 0 0 8px;
+  margin-bottom: 8px;
   text-align: center;
 }
 
 .card-text {
   font-size: 1em;
-  margin: 5px 0;
+  margin-bottom: 12px;
   color: #555;
 }
 
 .card-button-container {
   display: flex;
-  justify-content: center; /* Cambié a center para alinear el botón al centro */
-  margin-top: 12px; /* Cambié el margen superior para que coincida con las tarjetas de empleados */
+  justify-content: center;
 }
 
-.card-button {
-  display: block;
-  width: 100%; /* Ocupa todo el ancho disponible */
-  padding: 8px;
-  font-size: 0.9em;
-  color: #fff;
-  background-color: #1e1e2f;
-  border: none;
+/* Formularios */
+input, select {
+  width: 100%;
+  padding: 12px;
+  margin: 10px 0;
+  border: 1px solid #ccc;
   border-radius: 4px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
-.card-button:hover {
-  background-color: #61dafb; /* Cambié el color de fondo al hacer hover para que coincida */
+input:focus, select:focus {
+  border-color: #61dafb;
+  box-shadow: 0 0 5px #61dafb;
+}
+
+.form-container {
+  width: 100%;
+  background-color: white;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  padding: 20px;
+  margin-top: 20px;
+}
+
+/* Media Queries */
+@media (max-width: 768px) {
+  .card-container {
+    gap: 12px;
+  }
+
+  .card {
+    width: 100%;
+    padding: 14px;
+  }
+
+  .card-title {
+    font-size: 1.1em;
+  }
+
+  .card-text {
+    font-size: 0.9em;
+  }
+  
+  .App {
+    max-width: 80%;
+  }
+
+  .card-container {
+    gap: 20px;
+  }
+  
+}
+
+
+@media (min-width: 1200px) {
+  .App {
+    max-width: 100%;
+  }
+
+  .card-container {
+    gap: 30px;
+  }
+
+  .card {
+    width: 300px;
+  }
 }

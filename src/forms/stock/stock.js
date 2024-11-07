@@ -1,9 +1,8 @@
-import '../../App.css';
-import './stock.css';
 import React from 'react';
 import useStock from '../../hooks/useHookStock';
+import './stock.css';
 
-const FormStock = () => {
+function FormStock() {
   const {
     sortedProductos,
     formData,
@@ -48,22 +47,25 @@ const FormStock = () => {
           onChange={handleInputChange}
           placeholder="Monto"
         />
-        <button type="submit">
+        <button type="submit" className="btn-submit">
           {formData.idProducto ? 'Actualizar Producto' : 'Agregar Producto'}
         </button>
-        <button type="button" onClick={resetForm}>
+        <button type="button" className="btn-reset" onClick={resetForm}>
           Limpiar Formulario
         </button>
       </form>
 
       <div>
-        <input
-          type="text"
+        <select
+          id="estado"
           name="estado"
           value={filters.estado}
           onChange={handleFilterChange}
-          placeholder="Estado"
-        />
+        >
+          <option value="Alta">Alta</option>
+          <option value="Baja">Baja</option>
+        </select>
+
         <input
           type="text"
           name="nombreProducto"
@@ -91,8 +93,20 @@ const FormStock = () => {
               <td>{producto.cantidad}</td>
               <td>{producto.monto}</td>
               <td>
-                <button onClick={() => handleEdit(producto)}>Editar</button>
-                <button onClick={() => handleElim(producto.idProducto, producto.estado)}>Eliminar</button>
+                <button
+                  id={`edit-${producto.idProducto}`} /* ID único para Editar */
+                  className="btn-edit"
+                  onClick={() => handleEdit(producto)}
+                >
+                  Editar
+                </button>
+                <button
+                  id={`delete-${producto.idProducto}`} /* ID único para Eliminar */
+                  className="btn-delete"
+                  onClick={() => handleElim(producto.idProducto, producto.estado)}
+                >
+                  Eliminar
+                </button>
               </td>
             </tr>
           ))}
@@ -100,6 +114,6 @@ const FormStock = () => {
       </table>
     </div>
   );
-};
+}
 
 export default FormStock;

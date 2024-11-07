@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import useClientes from '../../hooks/useHookCli';
-import '../../App.css';
+import './clientes.css'; 
 
 function FormClientes() {
   const {
@@ -17,6 +17,7 @@ function FormClientes() {
   const [contacto, setContacto] = useState('');
   const [idCliente, setIdCliente] = useState('');
 
+  // Función para ingresar o modificar un cliente
   const handleIngresar = (event) => {
     event.preventDefault();
 
@@ -28,12 +29,13 @@ function FormClientes() {
     };
 
     if (idCliente) {
-      updateCliente(idCliente, cliente);
+      updateCliente(idCliente, cliente); // Modificar cliente existente
     } else {
-      createCliente(cliente);
+      createCliente(cliente); // Crear nuevo cliente
     }
   };
 
+  // Función para editar los datos de un cliente
   const handleEdit = (cliente) => {
     setIdCliente(cliente.idCliente);
     setDni(cliente.dni);
@@ -42,6 +44,7 @@ function FormClientes() {
     setContacto(cliente.contacto);
   };
 
+  // Resetear el formulario después de la acción
   const resetForm = () => {
     setIdCliente('');
     setDni('');
@@ -50,6 +53,7 @@ function FormClientes() {
     setContacto('');
   };
 
+  // Renderizar los clientes en la tabla
   const renderClientes = () => {
     if (clientes.length === 0) {
       return (
@@ -67,7 +71,7 @@ function FormClientes() {
         <td>{cliente.direccion}</td>
         <td>{cliente.contacto}</td>
         <td>
-          <button id='botmod' onClick={() => handleEdit(cliente)}>Modificar</button>
+          <button id='botmod-cliente' onClick={() => handleEdit(cliente)}>Modificar</button>
         </td>
       </tr>
     ));
@@ -78,51 +82,53 @@ function FormClientes() {
       <header className="App-header">
         <input
           type="text"
-          id="filtro"
+          id="filtro-clientes"
           placeholder="Buscar clientes por nombre o DNI..."
-          onChange={(e) => handleSearchClientes(e.target.value)}
+          onChange={(e) => handleSearchClientes(e.target.value)} // Manejar búsqueda
         />
       </header>
-      <form onSubmit={handleIngresar}>
+
+      <form onSubmit={handleIngresar} id="form-clientes">
         <input
           type="text"
-          id="idCliente"
+          id="idCliente-form"
           placeholder="ID Cliente"
           value={idCliente}
           readOnly
         />
         <input
           type="text"
-          id="dni"
+          id="dni-form"
           placeholder="DNI"
           value={dni}
           onChange={(e) => setDni(e.target.value)}
         />
         <input
           type="text"
-          id="nombreApellido"
+          id="nombreApellido-form"
           placeholder="Nombre y Apellido"
           value={nombreApellido}
           onChange={(e) => setNombreApellido(e.target.value)}
         />
         <input
           type="text"
-          id="direccion"
+          id="direccion-form"
           placeholder="Dirección"
           value={direccion}
           onChange={(e) => setDireccion(e.target.value)}
         />
         <input
           type="text"
-          id="contacto"
+          id="contacto-form"
           placeholder="Contacto"
           value={contacto}
           onChange={(e) => setContacto(e.target.value)}
         />
-        <button type="submit" id="ingresarCliente">
+        <button type="submit" id="ingresarCliente-form">
           {idCliente ? 'Modificar' : 'Ingresar'}
         </button>
       </form>
+
       <div className="tabla-container">
         <table id="tabla-clientes" className="tabla-negra">
           <thead>

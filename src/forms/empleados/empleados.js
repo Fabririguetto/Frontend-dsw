@@ -15,6 +15,9 @@ function FormEmpleados() {
     setSucursal,
     handleIngresar,
     handleSelectEmpleado,
+    toggleEditMode,
+    isEditMode,
+    resetForm,
   } = useEmpleados();
 
   const renderEmpleados = () => {
@@ -38,8 +41,8 @@ function FormEmpleados() {
               <button className="card-button" onClick={() => handleSelectEmpleado(empleado)}>
                 Modificar
               </button>
-              <button className="card-button" onClick={() => handleSelectEmpleado(empleado)}>
-                Eiminar
+              <button className="card-button" onClick={resetForm}>
+                Cancelar
               </button>
             </div>
           </div>
@@ -58,9 +61,6 @@ function FormEmpleados() {
 
   return (
     <div className="App">
-      <header className="App-header">
-        <input type="text" id="filtro" placeholder="Buscar empleados por nombre o DNI..." />
-      </header>
       <form onSubmit={(e) => { e.preventDefault(); handleIngresar(); }}>
         <input
           type="text"
@@ -92,9 +92,9 @@ function FormEmpleados() {
           {renderSucursalesOptions()}
         </select>
         <button type="submit">
-          {dniCuil ? 'Modificar' : 'Ingresar'}
+          {isEditMode ? 'Modificar' : 'Ingresar'}
         </button>
-        
+        {isEditMode && <button type="button" onClick={resetForm}>Cancelar</button>}
       </form>
       {renderEmpleados()}
     </div>
