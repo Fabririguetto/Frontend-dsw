@@ -10,7 +10,7 @@ function DetalleCargarVenta() {
     // Cargar artículos disponibles (por ejemplo)
     useEffect(() => {
         // Fetch para obtener artículos disponibles
-        fetch('http://localhost:3500/api/articulos')
+        fetch('http://localhost:3500/articulos')
             .then(response => response.json())
             .then(data => setArticulos(data))
             .catch(error => console.error('Error al obtener artículos:', error));
@@ -20,7 +20,7 @@ function DetalleCargarVenta() {
         if (!articuloSeleccionado || cantidad <= 0) return;
 
         // Enviar el artículo seleccionado para agregarlo a la venta
-        const response = await fetch(`http://localhost:3500/api/agregarArticuloAVenta/${idVenta}`, {
+        const response = await fetch(`http://localhost:3500/agregarArticuloAVenta/${idVenta}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

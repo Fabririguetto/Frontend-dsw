@@ -1,85 +1,22 @@
-import React, { useEffect, useState } from 'react';
-import FormDetalleVentas from './detalle_Venta'; // Asegúrate de que esta ruta sea correcta
-import { useNavigate } from 'react-router-dom';
-
+import React, { useState } from 'react';
+import FormDetalleVentas from './detalle_Venta';
+import { useHookVen } from '../../hooks/useHookVen';
 
 function FormVentas() {
-  const [ventas, setVentas] = useState([]);
-  const [ventaSeleccionada, setVentaSeleccionada] = useState(null); // Venta seleccionada
-  const [mostrarDetalle, setMostrarDetalle] = useState(false); // Controla la visibilidad de la subventana
-  const [idVenta, setIdVenta] = useState(null);
-  
-  const navigate = useNavigate();
+  const { 
+    ventas, 
+    clientes,  // Obtener la lista de clientes
+    ventaSeleccionada, 
+    mostrarDetalle, 
+    iniciarVenta, 
+    handleDetalleClick, 
+    cerrarDetalle,
+    clienteSeleccionado,
+    setClienteSeleccionado  // Método para seleccionar cliente
+  } = useHookVen();
 
-  useEffect(() => {
-    fetchVentas();
-  }, []);
-
-  const fetchVentas = () => {
-    fetch('http://localhost:3500/ventas')
-      .then((response) => response.json())
-      .then((ventas) => {
-        if (Array.isArray(ventas)) {
-          setVentas(ventas);
-        } else {
-          setVentas([]); // En caso de que la respuesta no sea un array
-        }
-      })
-      .catch((error) => {
-        console.error('Error fetching ventas:', error);
-        setVentas([]); // En caso de error, establecer ventas como un array vacío
-      });
-  };
-
-  const handleDetalleClick = (venta) => {
-    setVentaSeleccionada(venta); // Establece la venta seleccionada
-    setMostrarDetalle(true); // Muestra la subventana
-  };
-
-  const iniciarVenta = async () => {
-    const montoTotal = 0;  
-    const DNIEmpleado = '44231125'; 
-    const idCliente = 1;
-    const fechaHoraVenta = new Date().toISOString().slice(0, 19).replace('T', ' ');
-
-    console.log('Datos enviados:', {
-        montoTotal,
-        DNIEmpleado,
-        idCliente,
-        fechaHoraVenta
-    });
-
-    try {
-        const response = await fetch('http://localhost:3500/crearVenta', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                montoTotal,
-                DNIEmpleado,
-                idCliente,
-                fechaHoraVenta
-            })
-        });
-
-        if (response.ok) {
-            const data = await response.json();
-            console.log('Venta creada con éxito:', data);
-        } else {
-            console.error('Error al crear la venta');
-        }
-    } catch (error) {
-        console.error('Error:', error);
-    }
-};
-
-
-
-  const cerrarDetalle = () => {
-    setMostrarDetalle(false); // Oculta la subventana
-    setVentaSeleccionada(null); // Limpia la venta seleccionada
-  };
+  const [montoTotal, setMontoTotal] = useState(''); // Asegurarse de capturar el monto
+  const [DNIEmpleado, setDNIEmpleado] = useState(''); // Para capturar el DNI del empleado
 
   const renderVentas = () => {
     if (ventas.length === 0) {
@@ -94,8 +31,8 @@ function FormVentas() {
       <tr key={venta.idVenta}>
         <td>{venta.idVenta}</td>
         <td>{venta.montoTotal}</td>
-        <td>{venta.sucursal}</td>
-        <td>{venta.pCliente}</td>
+        <td>{venta.nombre_apellidoEmp}</td>
+        <td>{venta.nombre_apellidoCli}</td>
         <td>
           <button onClick={() => handleDetalleClick(venta)}>Detalle</button>
         </td>
@@ -103,11 +40,36 @@ function FormVentas() {
     ));
   };
 
+  const handleCrearVenta = () => {
+    montoTotal = 0
+    DNIEmpleado = 44231125
+    if (!montoTotal || !DNIEmpleado || !clienteSeleccionado) {
+      alert("Por favor completa todos los campos.");
+      return;
+    }
+    // Aquí estamos usando la función de actualización de estado de React
+    iniciarVenta(montoTotal, DNIEmpleado, clienteSeleccionado);
+  };
+
   return (
     <div className="App">
       <header className="App-header">
-        <input type="text" id="filtro" placeholder="Buscar..." />
-        <button type='button' id='newVen' onClick={iniciarVenta}>
+        <input 
+          type="text" 
+          id="filtro" 
+          placeholder="Buscar..." 
+        />
+        <div>
+          <label htmlFor="cliente">Ingresar DNI del Cliente para una nueva venta</label>
+          <input 
+            type="text" 
+            id="cliente" 
+            value={clienteSeleccionado} 
+            onChange={(e) => setClienteSeleccionado(e.target.value)} 
+            placeholder="Ingrese DNI del Cliente" 
+          />
+        </div>
+        <button type='button' id='newVen' onClick={handleCrearVenta}>
           Nueva Venta
         </button>
       </header>

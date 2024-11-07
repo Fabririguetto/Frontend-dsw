@@ -47,10 +47,19 @@ function FormStock() {
           onChange={handleInputChange}
           placeholder="Monto"
         />
-        <button type="submit" className="btn-submit">
+        <button
+          type="submit"
+          id="btn-agregar-producto" /* ID único para Agregar Producto */
+          className="btn-submit"
+        >
           {formData.idProducto ? 'Actualizar Producto' : 'Agregar Producto'}
         </button>
-        <button type="button" className="btn-reset" onClick={resetForm}>
+        <button
+          type="button"
+          id="btn-limpiar-formulario" /* ID único para Limpiar Formulario */
+          className="btn-reset"
+          onClick={resetForm}
+        >
           Limpiar Formulario
         </button>
       </form>
@@ -94,18 +103,18 @@ function FormStock() {
               <td>{producto.monto}</td>
               <td>
                 <button
-                  id={`edit-${producto.idProducto}`} /* ID único para Editar */
-                  className="btn-edit"
-                  onClick={() => handleEdit(producto)}
-                >
-                  Editar
-                </button>
-                <button
-                  id={`delete-${producto.idProducto}`} /* ID único para Eliminar */
-                  className="btn-delete"
-                  onClick={() => handleElim(producto.idProducto, producto.estado)}
-                >
-                  Eliminar
+                    id={`edit-${producto.idProducto}`} /* ID único para Editar */
+                    className="btn-edit"
+                    onClick={() => handleEdit(producto)}
+                  >
+                    Editar
+                  </button>
+                  <button
+                    id={`delete-${producto.idProducto}`} /* ID único para Eliminar */
+                    className="btn-delete"
+                    onClick={() => handleElim(producto.idProducto, producto.estado)}
+                  >
+                    Eliminar
                 </button>
               </td>
             </tr>

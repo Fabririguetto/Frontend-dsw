@@ -49,20 +49,40 @@ input:focus {
   box-shadow: 0 0 5px #61dafb;
 }
 
+/* Botones (común para todos los botones) */
 button {
-  background-color: #4a90e2;
-  color: white;
-  border: none;
-  padding: 10px;
+  padding: 10px 15px;  /* Mantener un tamaño consistente */
   border-radius: 5px;
   cursor: pointer;
   transition: background-color 0.3s;
   flex: 1;
   min-width: 150px;
+  font-size: 16px;  /* Ajuste para mantener el tamaño de texto legible */
+  height: 45px;  /* Tamaño consistente con los botones de 'Cantidad' y 'Monto' */
 }
 
 button:hover {
   background-color: #357ab8;
+}
+
+/* Botón Agregar Producto */
+.btn-submit {
+  background-color: #28a745; /* Verde para Agregar Producto */
+  color: white;
+}
+
+.btn-submit:hover {
+  background-color: #218838; /* Verde más oscuro */
+}
+
+/* Botón Limpiar Formulario */
+.btn-reset {
+  background-color: #ffc107; /* Amarillo para Limpiar Formulario */
+  color: white;
+}
+
+.btn-reset:hover {
+  background-color: #e0a800; /* Amarillo más oscuro */
 }
 
 /* Tablas */
@@ -101,7 +121,7 @@ tbody tr:hover {
 
 /* Botones Editar y Eliminar */
 .btn-edit {
-  background-color: #4caf50; /* Verde para Editar */
+  background-color: #e8d952; /* Amarillo claro para Editar */
   color: white;
   border: none;
   padding: 8px 15px;
@@ -111,7 +131,7 @@ tbody tr:hover {
 }
 
 .btn-edit:hover {
-  background-color: #388e3c; /* Verde más oscuro */
+  background-color: #fdd835; /* Amarillo un poco más oscuro */
 }
 
 .btn-delete {

@@ -1,66 +1,69 @@
 import React, { useEffect, useState } from 'react';
-import './detalle_Venta.css'
+import { useParams } from 'react-router-dom';
 
-function FormDetalleVentas({ venta, onClose }) {
-  const [detalleVentas, setDetalleVentas] = useState([]);
+function DetalleVenta() {
+  const { idVenta } = useParams(); // Captura el idVenta de la URL
+  const [detallesVenta, setDetallesVenta] = useState([]);
+  const [loading, setLoading] = useState(true); // Estado de carga
 
   useEffect(() => {
-    fetchDetalleVentas();
-  }, [venta]); // Ejecutar fetchDetalleVentas cada vez que la venta seleccionada cambie
-
-  const fetchDetalleVentas = () => {
-    fetch('http://localhost:3500/DetalleVentas')
+    setLoading(true); // Empieza a cargar los datos
+    fetch(`http://localhost:3500/detalle_ventas/${idVenta}`)
       .then((response) => response.json())
       .then((data) => {
         if (Array.isArray(data)) {
-          setDetalleVentas(data);
+          setDetallesVenta(data);
         } else {
-          setDetalleVentas([]); // En caso de que la respuesta no sea un array
+          console.error('Error: La respuesta no es un array', data);
+          setDetallesVenta([]); // Si no es un array, inicializamos como array vacío
         }
+        setLoading(false); // Finaliza la carga
       })
       .catch((error) => {
-        console.error('Error fetching detalle ventas:', error);
-        setDetalleVentas([]); // En caso de error, establecer detalleVentas como un array vacío
+        console.error('Error fetching venta:', error);
+        setLoading(false); // En caso de error, finaliza la carga
       });
-  };
+  }, [idVenta]);
 
-  const renderDetalleVentas = () => {
-    if (detalleVentas.length === 0) {
+  // Función para renderizar los detalles de la venta
+  const renderDetalles = () => {
+    if (detallesVenta.length === 0) {
       return (
         <tr>
-          <td colSpan="4">No hay detalles de ventas disponibles</td>
+          <td colSpan="4">No se encontraron detalles para esta venta.</td>
         </tr>
       );
     }
 
-    return detalleVentas.map((detalle) => (
-      <tr key={detalle.idProducto}>
-        <td>{detalle.idProducto}</td>
-        <td>{detalle.fechaHoraVenta}</td>
+    return detallesVenta.map((detalle, index) => (
+      <tr key={index}>
+        <td>{detalle.articulo}</td>
+        <td>{detalle.descripcion}</td>
         <td>{detalle.cantidadVendida}</td>
         <td>{detalle.subtotal}</td>
       </tr>
     ));
   };
 
+  if (loading) {
+    return <div>Cargando detalles de la venta...</div>;
+  }
+
   return (
-    <div className="divDet">
-     <header >
-        <h2>Detalle de Ventas</h2>
-        <button classname="butclose" onClick={onClose}>Cerrar</button>
-     </header>      
+    <div>
+      <h1>Detalle de la Venta {idVenta}</h1>
       <div className="tabla-container">
-        <table id="tabla-detalle-ventas" className="tabla-negra">
+        <table className="tabla-negra">
           <thead>
             <tr>
-              <th>ID Producto</th>
-              <th>Fecha Hora Venta</th>
+              <th>Artículo</th>
+              <th>Descripción</th>
               <th>Cantidad Vendida</th>
               <th>Subtotal</th>
             </tr>
           </thead>
-          <tbody className="cuerpo-tabla">
-            {renderDetalleVentas()}
+          <tbody>
+            {renderDetalles()}
           </tbody>
         </table>
       </div>
@@ -68,4 +71,4 @@ function FormDetalleVentas({ venta, onClose }) {
   );
 }
 
-export default FormDetalleVentas;
+export default DetalleVenta;
