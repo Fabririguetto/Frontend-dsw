@@ -79,7 +79,6 @@ function FormSucursales() {
             <p><strong>Nombre:</strong> {sucursalSeleccionada.nombreSucursal}</p>
             <p><strong>ID:</strong> {sucursalSeleccionada.idSucursal}</p>
             <p><strong>Dirección:</strong> {sucursalSeleccionada.direccion}</p>
-            <p><strong>Teléfono:</strong> {sucursalSeleccionada.telefono}</p>
             {/* Agrega más detalles si es necesario */}
           </div>
         )}

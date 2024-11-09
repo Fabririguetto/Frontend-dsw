@@ -121,7 +121,7 @@ tbody tr:hover {
 
 /* Botones Editar y Eliminar */
 .btn-edit {
-  background-color: #e8d952; /* Amarillo claro para Editar */
+  background-color: #007bff; /* Azul claro para Editar */
   color: white;
   border: none;
   padding: 8px 15px;
@@ -131,11 +131,11 @@ tbody tr:hover {
 }
 
 .btn-edit:hover {
-  background-color: #fdd835; /* Amarillo un poco más oscuro */
+  background-color: #0056b3; /* Azul un poco más oscuro */
 }
 
 .btn-delete {
-  background-color: #f44336; /* Rojo para Eliminar */
+  background-color: #dc3545; /* Rojo para Eliminar */
   color: white;
   border: none;
   padding: 8px 15px;
@@ -145,5 +145,5 @@ tbody tr:hover {
 }
 
 .btn-delete:hover {
-  background-color: #d32f2f; /* Rojo más oscuro */
+  background-color: #c82333; /* Rojo más oscuro */
 }

@@ -44,10 +44,10 @@
 
 /* Estilo para el botón de modificación */
 #botmod-cliente {
-  background-color: #e8d952;
+  background-color: #007bff;
   border: none;
 }
 
 #botmod-cliente:hover {
-  background-color: #fdd835;
+  background-color: #0056b3;
 }

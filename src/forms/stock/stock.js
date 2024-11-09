@@ -100,21 +100,21 @@ function FormStock() {
               <td>{producto.articulo}</td>
               <td>{producto.descripcion}</td>
               <td>{producto.cantidad}</td>
-              <td>{producto.monto}</td>
+              <td>{`$${(producto.monto ? Number(producto.monto).toFixed(2) : '0.00')}`}</td>
               <td>
                 <button
-                    id={`edit-${producto.idProducto}`} /* ID único para Editar */
-                    className="btn-edit"
-                    onClick={() => handleEdit(producto)}
-                  >
-                    Editar
-                  </button>
-                  <button
-                    id={`delete-${producto.idProducto}`} /* ID único para Eliminar */
-                    className="btn-delete"
-                    onClick={() => handleElim(producto.idProducto, producto.estado)}
-                  >
-                    Eliminar
+                  id={`edit-${producto.idProducto}`} /* ID único para Editar */
+                  className="btn-edit"
+                  onClick={() => handleEdit(producto)}
+                >
+                  Editar
+                </button>
+                <button
+                  id={`delete-${producto.idProducto}`} /* ID único para Eliminar */
+                  className="btn-delete"
+                  onClick={() => handleElim(producto.idProducto, producto.estado)}
+                >
+                  Eliminar
                 </button>
               </td>
             </tr>

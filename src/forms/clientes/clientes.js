@@ -71,7 +71,7 @@ function FormClientes() {
         <td>{cliente.direccion}</td>
         <td>{cliente.contacto}</td>
         <td>
-          <button id='botmod-cliente' onClick={() => handleEdit(cliente)}>Modificar</button>
+          <button id='botmod-cliente' onClick={() => handleEdit(cliente)}>Editar</button>
         </td>
       </tr>
     ));
