@@ -1,23 +1,30 @@
 import React, { useState } from 'react';
-import FormDetalleVentas from './detalle_Venta';
+import './venta.css';
 import { useHookVen } from '../../hooks/useHookVen';
 
 function FormVentas() {
   const { 
     ventas, 
-    clientes,  // Obtener la lista de clientes
-    ventaSeleccionada, 
-    mostrarDetalle, 
     iniciarVenta, 
     handleDetalleClick, 
-    cerrarDetalle,
     clienteSeleccionado,
-    setClienteSeleccionado  // Método para seleccionar cliente
+    setClienteSeleccionado,  
+    idClienteSeleccionado, 
+    validarCliente,
+    fetchVentas
   } = useHookVen();
 
-  const [montoTotal, setMontoTotal] = useState(''); // Asegurarse de capturar el monto
-  const [DNIEmpleado, setDNIEmpleado] = useState(''); // Para capturar el DNI del empleado
+  const [montoTotal, setMontoTotal] = useState(0); // Estado para montoTotal
+  const [DNIEmpleado, setDNIEmpleado] = useState(''); // Capturar el DNI del empleado
+  const [filtro, setFiltro] = useState(''); // Estado para el filtro
 
+  // Función para manejar cambios en el filtro y llamar a fetchVentas con filtro
+  const handleFilterChange = (e) => {
+    setFiltro(e.target.value);
+    fetchVentas(filtro); // Pasar el filtro al hook para que haga la consulta
+  };
+
+  // Renderizar la lista de ventas
   const renderVentas = () => {
     if (ventas.length === 0) {
       return (
@@ -33,6 +40,7 @@ function FormVentas() {
         <td>{venta.montoTotal}</td>
         <td>{venta.nombre_apellidoEmp}</td>
         <td>{venta.nombre_apellidoCli}</td>
+        <td>{venta.fechaHoraVenta}</td>
         <td>
           <button onClick={() => handleDetalleClick(venta)}>Detalle</button>
         </td>
@@ -40,25 +48,43 @@ function FormVentas() {
     ));
   };
 
-  const handleCrearVenta = () => {
-    montoTotal = 0
-    DNIEmpleado = 44231125
-    if (!montoTotal || !DNIEmpleado || !clienteSeleccionado) {
-      alert("Por favor completa todos los campos.");
-      return;
+  // Función para manejar la creación de una nueva venta
+  const handleCrearVenta = async () => {    
+    const montoTotal = -1
+    // Verificar si el cliente es válido antes de proceder
+    const clienteValido = await validarCliente(clienteSeleccionado);
+    
+    if (!clienteValido) {
+      // Si el cliente no es válido, mostramos un mensaje y detenemos la ejecución
+      alert('Cliente no válido. No se puede crear la venta.');
+      return; // Detenemos la ejecución de la función si el cliente no es válido
     }
-    // Aquí estamos usando la función de actualización de estado de React
-    iniciarVenta(montoTotal, DNIEmpleado, clienteSeleccionado);
+  
+    // Si el cliente es válido, proceder a iniciar la venta con el monto, DNI del empleado e id del cliente
+    const ventaCreada = await iniciarVenta(montoTotal, DNIEmpleado, idClienteSeleccionado);
+    
+    // Si la venta se crea con éxito, abrir la venta en una nueva ventana
+    if (ventaCreada) {
+      const nuevaVentaId = ventaCreada.id_venta; // Asegúrate de que el ID de la venta sea parte de la respuesta
+      const nuevaPestaña = window.open(`/detallacargaventa/${nuevaVentaId}`, '_blank');
+      if (nuevaPestaña) {
+        nuevaPestaña.focus(); // Asegurarse de que la nueva pestaña esté enfocada
+      }
+    }
   };
 
   return (
-    <div className="App">
-      <header className="App-header">
-        <input 
-          type="text" 
-          id="filtro" 
-          placeholder="Buscar..." 
-        />
+    <div>
+      {/* Input de búsqueda para el filtro */}
+      <input 
+        type="text" 
+        id="filtro" 
+        placeholder="Buscar..." 
+        value={filtro}
+        onChange={handleFilterChange}
+      />
+
+      <div className='div-container'>
         <div>
           <label htmlFor="cliente">Ingresar DNI del Cliente para una nueva venta</label>
           <input 
@@ -69,10 +95,22 @@ function FormVentas() {
             placeholder="Ingrese DNI del Cliente" 
           />
         </div>
+        <div>
+          <label htmlFor="DNIEmpleado">DNI del Empleado</label>
+          <input 
+            type="text" 
+            id="DNIEmpleado" 
+            value={DNIEmpleado} 
+            onChange={(e) => setDNIEmpleado(e.target.value)} 
+            placeholder="Ingrese DNI del Empleado" 
+          />
+        </div>
         <button type='button' id='newVen' onClick={handleCrearVenta}>
           Nueva Venta
         </button>
-      </header>
+      </div>
+      
+      {/* Tabla para mostrar las ventas */}
       <div className="tabla-container">
         <table id="tabla-ventas" className="tabla-negra">
           <thead>
@@ -81,6 +119,7 @@ function FormVentas() {
               <th className="columna">Monto Total</th>
               <th className="columna">Empleado</th>
               <th className="columna">Cliente</th>
+              <th className="columna">Fecha Hora</th>
               <th className="columna">Acciones</th>
             </tr>
           </thead>
@@ -89,14 +128,6 @@ function FormVentas() {
           </tbody>
         </table>
       </div>
-
-      {/* Subventana para mostrar detalle de ventas */}
-      {mostrarDetalle && (
-        <FormDetalleVentas
-          venta={ventaSeleccionada}
-          onClose={cerrarDetalle}
-        />
-      )}
     </div>
   );
 }

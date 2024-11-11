@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import ReactDOM from 'react-dom/client';
 import './index.css'; // Importa el archivo CSS global para todo el proyecto
 import 'bootstrap/dist/css/bootstrap.css'; // Importa Bootstrap
 import App from './App';

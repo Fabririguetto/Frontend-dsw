@@ -1,0 +1,62 @@
+/* Asegura que el botón esté más abajo del header */
+.button-container {
+    margin-top: 20px; /* Ajusta el valor según sea necesario */
+    text-align: center; /* Esto centrará el botón horizontalmente */
+  }
+  
+  #newVen {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    cursor: pointer;
+  }
+  
+  #newVen:hover {
+    background-color: #218838;
+  }
+  
+  .div-container {
+    background-color: #f9fafc; /* Fondo claro para distinguir */
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Sombra suave */
+    border: 1px solid #d1d9e6; /* Borde sutil */
+    margin-bottom: 20px; /* Separación entre formularios */
+  }
+  
+  .div-container input {
+    width: 100%;
+    padding: 12px;
+    margin-top: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .div-container input:focus {
+    border-color: #61dafb; /* Color de enfoque */
+    box-shadow: 0 0 5px rgba(97, 218, 251, 0.5);
+  }
+  
+  .div-container label {
+    display: block;
+    margin-bottom: 5px;
+    color: #333;
+    font-weight: 500;
+    font-size: 1em;
+  }
+  
+  /* Ajustes de alineación */
+  .div-container div {
+    margin-bottom: 20px;
+  }
+  
+  .div-container input[type="number"]::-webkit-outer-spin-button,
+  .div-container input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  

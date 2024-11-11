@@ -22,7 +22,7 @@ body {
   padding: 0px;
 }
 
-/* Contenedor de la aplicación */
+/* Contenedor de la aplicación para mobile */
 .App {
   background-color: #fff;
   color: #000;
@@ -47,29 +47,17 @@ body {
   width: 100%;
 }
 
-/* Navegación */
+/* Navegación (mobile) */
 nav {
   display: flex;
   justify-content: center;
-  gap: 16px;
-
+  gap: 8px; /* Cambiado para mobile */
 }
 
 nav a {
   color: #61dafb;
   text-decoration: none;
-  font-size: 1.1em;
-  font-weight: 500;
-  transition: color 0.3s ease;
-}
-
-nav a:hover {
-  color: #21a1f1;
-}
-nav a {
-  color: #61dafb;
-  text-decoration: none;
-  font-size: 1.1em;
+  font-size: 1em; /* Ajustado para mobile */
   font-weight: 500;
   transition: color 0.3s ease;
 }
@@ -78,17 +66,18 @@ nav a:hover {
   color: #21a1f1;
 }
 
-/* Resaltar el enlace activo */
+/* Enlace activo */
 nav a.active {
-  color: #00ff2f; /* El color cambia cuando está activo */
-  font-weight: bold; /* Hace que el texto sea más visible */
+  color: #00ff2f;
+  font-weight: bold;
 }
+
 /* Botones */
 button, .card-button {
   background-color: #1e1e2f;
   color: #fff;
   border: none;
-  padding: 10px 20px;
+  padding: 8px 16px; /* Ajustado para mobile */
   border-radius: 4px;
   cursor: pointer;
   transition: background-color 0.3s ease;
@@ -103,23 +92,23 @@ button:focus, .card-button:focus {
   box-shadow: 0 0 5px #61dafb;
 }
 
-/* Contenedor de tarjetas */
+/* Contenedor de tarjetas (mobile) */
 .card-container {
   display: flex;
   flex-wrap: wrap;
-  gap: 16px;
+  gap: 12px;
   justify-content: center;
-  padding: 20px;
+  padding: 10px; /* Ajustado para mobile */
   width: 100%;
 }
 
-/* Tarjetas */
+/* Tarjetas (mobile) */
 .card {
   background-color: #fff;
   border-radius: 8px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  max-width: 250px;
-  padding: 16px;
+  max-width: 100%; /* Ajustado para mobile */
+  padding: 12px; /* Ajustado para mobile */
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
@@ -129,7 +118,7 @@ button:focus, .card-button:focus {
 }
 
 .card-title {
-  font-size: 1.2em;
+  font-size: 1.1em; /* Ajustado para mobile */
   font-weight: bold;
   color: #333;
   margin-bottom: 8px;
@@ -137,7 +126,7 @@ button:focus, .card-button:focus {
 }
 
 .card-text {
-  font-size: 1em;
+  font-size: 0.9em; /* Ajustado para mobile */
   margin-bottom: 12px;
   color: #555;
 }
@@ -150,7 +139,7 @@ button:focus, .card-button:focus {
 /* Formularios */
 input, select {
   width: 100%;
-  padding: 12px;
+  padding: 10px; /* Ajustado para mobile */
   margin: 10px 0;
   border: 1px solid #ccc;
   border-radius: 4px;
@@ -172,35 +161,32 @@ input:focus, select:focus {
 }
 
 /* Media Queries */
-@media (max-width: 768px) {
+
+/* Para pantallas más grandes que 768px */
+@media (min-width: 768px) {
   .card-container {
-    gap: 12px;
+    gap: 20px; /* Aumentado para pantallas grandes */
   }
 
   .card {
-    width: 100%;
-    padding: 14px;
+    max-width: 250px;
+    padding: 16px;
   }
 
   .card-title {
-    font-size: 1.1em;
+    font-size: 1.2em;
   }
 
   .card-text {
-    font-size: 0.9em;
+    font-size: 1em;
   }
   
   .App {
     max-width: 80%;
   }
-
-  .card-container {
-    gap: 20px;
-  }
-  
 }
 
-
+/* Para pantallas extra grandes (1200px en adelante) */
 @media (min-width: 1200px) {
   .App {
     max-width: 100%;

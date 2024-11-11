@@ -5,23 +5,8 @@ import Clientes from './forms/clientes/clientes';
 import Sucursales from './forms/sucursales/sucursales';
 import Ventas from './forms/venta/ventas';
 import Empleados from './forms/empleados/empleados';
-import DetalleVenta from './forms/venta/detalle_Venta';  // Asegúrate de que la ruta sea correcta
-import CargaDetalle from './forms/venta/detallecargaventa';  // Cambio a mayúscula al inicio
-
-// Función para resaltar el enlace activo
-function NavLink({ to, children }) {
-  const location = useLocation();
-  const isActive = location.pathname === to;
-  
-  return (
-    <Link 
-      to={to} 
-      className={isActive ? 'active' : ''} // Se agrega la clase "active" si el enlace está activo
-    >
-      {children}
-    </Link>
-  );
-}
+import DetalleVenta from './forms/venta/detalle_Venta';  
+import DetalleCargarVenta from './forms/venta/detallecargaventa'; 
 
 function App() {
   return (
@@ -29,11 +14,11 @@ function App() {
       <div className="App">
         <header className="App-header">
           <nav>
-            <NavLink to="/stock">Stock</NavLink>
-            <NavLink to="/ventas">Ventas</NavLink>
-            <NavLink to="/clientes">Clientes</NavLink>
-            <NavLink to="/empleados">Empleados</NavLink>
-            <NavLink to="/sucursales">Sucursales</NavLink>
+            <Link to="/stock">Stock</Link>
+            <Link to="/ventas">Ventas</Link>
+            <Link to="/clientes">Clientes</Link>
+            <Link to="/empleados">Empleados</Link>
+            <Link to="/sucursales">Sucursales</Link>
           </nav>
         </header>
 
@@ -45,7 +30,7 @@ function App() {
             <Route path="/ventas" element={<Ventas />} />
             <Route path="/empleados" element={<Empleados />} />
             <Route path="/detalle_venta/:idVenta" element={<DetalleVenta />} />
-            <Route path="/detallecargaventa/:idVenta" element={<CargaDetalle />} />
+            <Route path="/detallecargaventa/:idVenta" element={<DetalleCargarVenta />} />
           </Routes>
         </div>
       </div>
