@@ -66,7 +66,7 @@ function FormVentas() {
     // Si la venta se crea con éxito, abrir la venta en una nueva ventana
     if (ventaCreada) {
       const nuevaVentaId = ventaCreada.id_venta; // Asegúrate de que el ID de la venta sea parte de la respuesta
-      const nuevaPestaña = window.open(`/detallacargaventa/${nuevaVentaId}`, '_blank');
+      const nuevaPestaña = window.open(`/cargaventa/${nuevaVentaId}`, '_blank');
       if (nuevaPestaña) {
         nuevaPestaña.focus(); // Asegurarse de que la nueva pestaña esté enfocada
       }
@@ -74,15 +74,15 @@ function FormVentas() {
   };
 
   return (
-    <div>
-      {/* Input de búsqueda para el filtro */}
-      <input 
-        type="text" 
-        id="filtro" 
-        placeholder="Buscar..." 
-        value={filtro}
-        onChange={handleFilterChange}
-      />
+    <div className='app'>
+      <header className="App-header">
+        <input
+          type="text"
+          id="filtro-clientes"
+          placeholder="Buscar por clientes o por empleados..."
+          onChange={(e) => handleFilterChange(e.target.value)} // Manejar búsqueda
+        />
+      </header>
 
       <div className='div-container'>
         <div>

@@ -81,7 +81,7 @@ export const useHookVen = () => {
     const fechaHoraVenta = new Date().toISOString().slice(0, 19).replace('T', ' ');
 
     try {
-      const response = await fetch('http://localhost:3500/crearVenta', {
+      const response = await fetch('http://localhost:3500/ventas/crearVenta', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

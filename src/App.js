@@ -6,7 +6,7 @@ import Sucursales from './forms/sucursales/sucursales';
 import Ventas from './forms/venta/ventas';
 import Empleados from './forms/empleados/empleados';
 import DetalleVenta from './forms/venta/detalle_Venta';  
-import DetalleCargarVenta from './forms/venta/detallecargaventa'; 
+import DetalleCargarVenta from './forms/venta/cargaventa'; 
 
 function App() {
   return (
@@ -30,7 +30,7 @@ function App() {
             <Route path="/ventas" element={<Ventas />} />
             <Route path="/empleados" element={<Empleados />} />
             <Route path="/detalle_venta/:idVenta" element={<DetalleVenta />} />
-            <Route path="/detallecargaventa/:idVenta" element={<DetalleCargarVenta />} />
+            <Route path="/cargaventa/:idVenta" element={<DetalleCargarVenta />} />
           </Routes>
         </div>
       </div>

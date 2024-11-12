@@ -44,6 +44,7 @@ function DetalleCargarVenta() {
 
       if (response.ok) {
         alert('Venta actualizada con éxito');
+        window.close();
       } else {
         alert('Error al actualizar la venta');
       }

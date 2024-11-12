@@ -71,7 +71,7 @@ function FormStock() {
           value={filters.estado}
           onChange={handleFilterChange}
         >
-          <option value="Alta">Alta</option>
+          <option value="Disponible">Disponible</option>
           <option value="Baja">Baja</option>
         </select>
 
@@ -80,7 +80,7 @@ function FormStock() {
           name="nombreProducto"
           value={filters.nombreProducto}
           onChange={handleFilterChange}
-          placeholder="Buscar por nombre"
+          placeholder="Buscar por articulo o descripcion"
         />
       </div>
 

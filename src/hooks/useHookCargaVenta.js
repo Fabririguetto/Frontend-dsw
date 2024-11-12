@@ -6,11 +6,14 @@ export const useHookCargaVenta = (idVenta) => {
   const [cantidad, setCantidad] = useState(1);
   const [productosVenta, setProductosVenta] = useState([]); // Productos añadidos a la venta
   const [totalVenta, setTotalVenta] = useState(0); // Total de la venta
+  const [totalVentaCalculado, setTotalVentaCalculado] = useState(0);
+  const [empleadoDNI, setEmpleadoDNI] = useState('');
+  const [clienteId, setClienteId] = useState('');
 
   useEffect(() => {
     const fetchArticulos = async () => {
       try {
-        const response = await fetch('http://localhost:3500/stockventa?estado=Alta');
+        const response = await fetch('http://localhost:3500/stockventa?estado=Disponible');
         const data = await response.json();
         console.log(data); // Verifica lo que se recibe de la API
         setArticulos(data);
@@ -22,29 +25,94 @@ export const useHookCargaVenta = (idVenta) => {
     fetchArticulos();
   }, []);
 
-  // Función para agregar un artículo a la venta
-  const agregarArticuloAVenta = () => {
-    if (!articuloSeleccionado || cantidad <= 0) return;
+  const actualizarMontoTotal = async () => {
+    try {
+      const responseVenta = await fetch(`http://localhost:3500/ventas/${idVenta}`, {
+        method: 'PUT', // Actualizar la venta
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          montoTotal: totalVenta, // El nuevo monto total
+        }),
+      });
+  
+      if (!responseVenta.ok) {
+        const errorData = await responseVenta.text();
+        console.error('Error al actualizar la venta:', errorData);
+        alert('Error al actualizar el monto total de la venta.');
+        return;
+      }
+  
+      alert('Monto total actualizado correctamente.');
+    } catch (error) {
+      console.error('Hubo un error al actualizar la venta:', error);
+      alert('Hubo un error al actualizar la venta.');
+    }
+  };
+  
+// Función para agregar un artículo a la venta
+const agregarArticuloAVenta = () => {
+  if (!articuloSeleccionado || cantidad <= 0) return;
 
-    const articulo = articulos.find((a) => a.idProducto === articuloSeleccionado);
-    const subtotal = articulo.monto * cantidad;
+  const articulo = articulos.find((a) => a.idProducto === articuloSeleccionado);
 
-    const nuevoProducto = {
-      ...articulo,
-      cantidad,
-      subtotal,
-    };
+  // Validación adicional si no se encuentra el artículo
+  if (!articulo) {
+    alert("El artículo seleccionado no es válido.");
+    return;
+  }
 
-    setProductosVenta((prevProductos) => {
-      const nuevosProductos = [...prevProductos, nuevoProducto];
-      calcularTotalVenta(nuevosProductos); // Recalcular total cada vez que se agrega un producto
-      return nuevosProductos;
-    });
-
-    setArticuloSeleccionado('');
-    setCantidad(1);
+  const subtotal = articulo.monto * cantidad;
+  const nuevoProducto = {
+    ...articulo,
+    cantidad,
+    subtotal,
   };
 
+  setProductosVenta((prevProductos) => {
+    const nuevosProductos = [...prevProductos, nuevoProducto];
+    calcularTotalVenta(nuevosProductos); // Recalcular total cada vez que se agrega un producto
+    return nuevosProductos;
+  });
+
+  setArticuloSeleccionado('');
+  setCantidad(1);
+};
+
+
+  // Función para agregar un artículo a la venta
+  const agregarProductosAVenta = async () => {
+    try {
+      const responseProductos = await fetch('http://localhost:3500/ventas/agregarProductosVenta', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          idVenta, // Ya tienes este ID de la venta
+          productos: productosVenta.map((producto) => ({
+            idProducto: producto.idProducto,
+            cantidadVendida: producto.cantidad,
+            subtotal: producto.subtotal,
+          })),
+        }),
+      });
+  
+      if (!responseProductos.ok) {
+        const errorData = await responseProductos.text();
+        console.error('Error al agregar productos:', errorData);
+        alert('Error al agregar los productos.');
+        return;
+      }
+  
+      alert('Productos agregados correctamente a la venta.');
+    } catch (error) {
+      console.error('Hubo un error al agregar los productos:', error);
+      alert('Hubo un error al agregar los productos.');
+    }
+  };
+  
   // Función para calcular el total de la venta
   const calcularTotalVenta = (productos) => {
     const total = productos.reduce((acc, producto) => acc + producto.subtotal, 0);
@@ -59,29 +127,27 @@ export const useHookCargaVenta = (idVenta) => {
   };
 
   // Función para finalizar la venta y actualizar el monto total
+  // Función para finalizar la venta y enviar los productos al backend
   const finalizarVenta = async () => {
+    if (productosVenta.length === 0) {
+      alert('Debe agregar al menos un producto para finalizar la venta.');
+      return;
+    }
+    
     try {
-      const response = await fetch(`http://localhost:3500/ventas/${idVenta}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          totalVenta, // Monto total actualizado
-        }),
-      });
-
-      const data = await response.json();
-      if (response.ok) {
-        console.log('Venta actualizada con éxito');
-      } else {
-        console.error('Error al actualizar la venta:', data.message);
-      }
+      // Actualizar monto total de la venta
+      await actualizarMontoTotal();
+  
+      // Agregar productos a la venta
+      await agregarProductosAVenta();
+  
+      alert('Venta finalizada y productos agregados correctamente.');
     } catch (error) {
-      console.error('Error al finalizar la venta:', error);
+      console.error('Hubo un error al finalizar la venta:', error);
+      alert('Hubo un error al finalizar la venta.');
     }
   };
-
+  
   return {
     articulos,
     articuloSeleccionado,
@@ -89,6 +155,7 @@ export const useHookCargaVenta = (idVenta) => {
     cantidad,
     setCantidad,
     agregarArticuloAVenta,
+    agregarProductosAVenta, // Cambia esto de agregarArticuloAVenta a agregarProductosAVenta
     productosVenta,
     totalVenta,
     eliminarArticuloAVenta,

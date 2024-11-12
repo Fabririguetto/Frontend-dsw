@@ -77,6 +77,37 @@ const useEmpleados = () => {
       });
   };
 
+  const handleSearchEmpleados = async (nombre) => {
+    let url = 'http://localhost:3500/empleados';
+  
+    if (nombre) {
+      url += `?nombre=${encodeURIComponent(nombre)}`;
+    }
+  
+    try {
+      const response = await fetch(url, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+  
+      if (!response.ok) {
+        throw new Error(`Network response was not ok: ${response.statusText}`);
+      }
+  
+      const clientes = await response.json();
+      console.log('Clientes encontrados:', clientes);
+  
+      if (Array.isArray(clientes)) {
+        setEmpleados(clientes);
+      }
+    } catch (error) {
+      console.error('Error fetching empleados:', error);
+    }
+  };
+  
+
 const handleIngresar = () => {
   if (isEditMode) {
     //Actualizar empleado
@@ -145,6 +176,7 @@ const resetForm = () => {
     setSucursal,
     handleIngresar,
     handleSelectEmpleado,
+    handleSearchEmpleados,
     toggleEditMode,
     isEditMode,
     resetForm,

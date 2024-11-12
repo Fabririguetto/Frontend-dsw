@@ -16,6 +16,7 @@ function FormEmpleados() {
     setSucursal,
     handleIngresar,
     handleSelectEmpleado,
+    handleSearchEmpleados,
     toggleEditMode,
     isEditMode,
     resetForm,
@@ -35,7 +36,7 @@ function FormEmpleados() {
             <p className="card-text">DNI/CUIL: {empleado.DNI_CUIL}</p>
             <p className="card-text">Contacto: {empleado.contacto}</p>
             <p className="card-text">
-              Sucursal: {empleado.sucursal?.idSucursal || 'No asignada'}
+              Sucursal: {empleado.nombreSucursal || 'No asignada'}
             </p>
             <div className="button-container">
               <button
@@ -67,6 +68,14 @@ function FormEmpleados() {
 
   return (
     <div className="App">
+      <header className="App-header">
+        <input
+          type="text"
+          id="filtro-empleados"
+          placeholder="Buscar empleados por nombre o DNI..."
+          onChange={(e) => handleSearchEmpleados(e.target.value)} // Manejar búsqueda
+        />
+      </header>
       <form onSubmit={(e) => { e.preventDefault(); handleIngresar(); }}>
         <input
           type="text"
