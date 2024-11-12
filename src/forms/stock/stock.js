@@ -18,6 +18,26 @@ function FormStock() {
 
   return (
     <div>
+      <div className="App-header">
+        <select
+          id="estado-select"
+          classname="estado-select"
+          value={filters.estado}
+          onChange={handleFilterChange}
+        >
+          <option value="Disponible">Disponible</option>
+          <option value="Baja">Baja</option>
+        </select>
+
+        <input
+          type="text"
+          
+          name="nombreProducto"
+          value={filters.nombreProducto}
+          onChange={handleFilterChange}
+          placeholder="Buscar por articulo o descripcion"
+        />
+      </div>
       <form onSubmit={handleSubmit}>
         <input
           type="text"
@@ -63,26 +83,6 @@ function FormStock() {
           Limpiar Formulario
         </button>
       </form>
-
-      <div>
-        <select
-          id="estado"
-          name="estado"
-          value={filters.estado}
-          onChange={handleFilterChange}
-        >
-          <option value="Disponible">Disponible</option>
-          <option value="Baja">Baja</option>
-        </select>
-
-        <input
-          type="text"
-          name="nombreProducto"
-          value={filters.nombreProducto}
-          onChange={handleFilterChange}
-          placeholder="Buscar por articulo o descripcion"
-        />
-      </div>
 
       <table>
         <thead>

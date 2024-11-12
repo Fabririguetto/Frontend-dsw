@@ -1,12 +1,12 @@
 import React from 'react';
-import { BrowserRouter, Link, Route, Routes, useLocation } from 'react-router-dom';
+import { BrowserRouter, NavLink, Route, Routes } from 'react-router-dom';
 import Stock from './forms/stock/stock';
 import Clientes from './forms/clientes/clientes';
 import Sucursales from './forms/sucursales/sucursales';
 import Ventas from './forms/venta/ventas';
 import Empleados from './forms/empleados/empleados';
-import DetalleVenta from './forms/venta/detalle_Venta';  
-import DetalleCargarVenta from './forms/venta/cargaventa'; 
+import DetalleVenta from './forms/venta/detalle_Venta';
+import DetalleCargarVenta from './forms/venta/cargaventa';  
 
 function App() {
   return (
@@ -14,11 +14,11 @@ function App() {
       <div className="App">
         <header className="App-header">
           <nav>
-            <Link to="/stock">Stock</Link>
-            <Link to="/ventas">Ventas</Link>
-            <Link to="/clientes">Clientes</Link>
-            <Link to="/empleados">Empleados</Link>
-            <Link to="/sucursales">Sucursales</Link>
+            <NavLink to="/stock" activeClassName="active">Stock</NavLink>
+            <NavLink to="/ventas" activeClassName="active">Ventas</NavLink>
+            <NavLink to="/clientes" activeClassName="active">Clientes</NavLink>
+            <NavLink to="/empleados" activeClassName="active">Empleados</NavLink>
+            <NavLink to="/sucursales" activeClassName="active">Sucursales</NavLink>
           </nav>
         </header>
 

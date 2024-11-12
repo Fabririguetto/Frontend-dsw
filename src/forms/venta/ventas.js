@@ -1,30 +1,36 @@
 import React, { useState } from 'react';
 import './venta.css';
+import DetalleVenta from './detalle_Venta';
 import { useHookVen } from '../../hooks/useHookVen';
 
 function FormVentas() {
-  const { 
-    ventas, 
-    iniciarVenta, 
-    handleDetalleClick, 
-    clienteSeleccionado,
-    setClienteSeleccionado,  
-    idClienteSeleccionado, 
+  const {
+    ventas,
+    iniciarVenta,
+    fetchVentas,
     validarCliente,
-    fetchVentas
+    handleSearch,
+    clienteSeleccionado,
+    setClienteSeleccionado,
+    idClienteSeleccionado
   } = useHookVen();
 
-  const [montoTotal, setMontoTotal] = useState(0); // Estado para montoTotal
-  const [DNIEmpleado, setDNIEmpleado] = useState(''); // Capturar el DNI del empleado
-  const [filtro, setFiltro] = useState(''); // Estado para el filtro
+  const [montoTotal, setMontoTotal] = useState(0);
+  const [DNIEmpleado, setDNIEmpleado] = useState('');
+  const [filtro, setFiltro] = useState('');
+  const [isModalOpen, setIsModalOpen] = useState(false); // Estado para controlar el modal
+  const [ventaSeleccionada, setVentaSeleccionada] = useState(null); // Para almacenar la venta seleccionada
 
-  // Función para manejar cambios en el filtro y llamar a fetchVentas con filtro
   const handleFilterChange = (e) => {
     setFiltro(e.target.value);
     fetchVentas(filtro); // Pasar el filtro al hook para que haga la consulta
   };
 
-  // Renderizar la lista de ventas
+  const handleDetalleClick = (venta) => {
+    setVentaSeleccionada(venta); // Guardamos la venta seleccionada
+    setIsModalOpen(true); // Abrimos el modal
+  };
+
   const renderVentas = () => {
     if (ventas.length === 0) {
       return (
@@ -42,50 +48,47 @@ function FormVentas() {
         <td>{venta.nombre_apellidoCli}</td>
         <td>{venta.fechaHoraVenta}</td>
         <td>
-          <button onClick={() => handleDetalleClick(venta)}>Detalle</button>
+          <button className='detallebtn' onClick={() => handleDetalleClick(venta)}>
+            Ver Detalle
+          </button>
         </td>
       </tr>
     ));
   };
 
-  // Función para manejar la creación de una nueva venta
   const handleCrearVenta = async () => {    
-    const montoTotal = -1
-    // Verificar si el cliente es válido antes de proceder
+    const montoTotal = -1;
     const clienteValido = await validarCliente(clienteSeleccionado);
     
     if (!clienteValido) {
-      // Si el cliente no es válido, mostramos un mensaje y detenemos la ejecución
       alert('Cliente no válido. No se puede crear la venta.');
-      return; // Detenemos la ejecución de la función si el cliente no es válido
+      return; 
     }
   
-    // Si el cliente es válido, proceder a iniciar la venta con el monto, DNI del empleado e id del cliente
     const ventaCreada = await iniciarVenta(montoTotal, DNIEmpleado, idClienteSeleccionado);
     
-    // Si la venta se crea con éxito, abrir la venta en una nueva ventana
     if (ventaCreada) {
-      const nuevaVentaId = ventaCreada.id_venta; // Asegúrate de que el ID de la venta sea parte de la respuesta
+      const nuevaVentaId = ventaCreada.id_venta;
       const nuevaPestaña = window.open(`/cargaventa/${nuevaVentaId}`, '_blank');
       if (nuevaPestaña) {
-        nuevaPestaña.focus(); // Asegurarse de que la nueva pestaña esté enfocada
+        nuevaPestaña.focus();
       }
     }
   };
 
   return (
-    <div className='app'>
-      <header className="App-header">
+    <div id="form-ventas-container">
+      <header className="App-header" id="header-ventas">
         <input
           type="text"
           id="filtro-clientes"
           placeholder="Buscar por clientes o por empleados..."
-          onChange={(e) => handleFilterChange(e.target.value)} // Manejar búsqueda
+          onChange={handleFilterChange}
         />
       </header>
 
-      <div className='div-container'>
-        <div>
+      <div id="form-venta-inputs" className="div-container">
+        <div id="cliente-input">
           <label htmlFor="cliente">Ingresar DNI del Cliente para una nueva venta</label>
           <input 
             type="text" 
@@ -95,7 +98,7 @@ function FormVentas() {
             placeholder="Ingrese DNI del Cliente" 
           />
         </div>
-        <div>
+        <div id="dni-empleado-input">
           <label htmlFor="DNIEmpleado">DNI del Empleado</label>
           <input 
             type="text" 
@@ -105,22 +108,25 @@ function FormVentas() {
             placeholder="Ingrese DNI del Empleado" 
           />
         </div>
-        <button type='button' id='newVen' onClick={handleCrearVenta}>
+        <button 
+          type='button' 
+          id='nueva-venta-btn'  /* ID único para Nueva Venta */
+          onClick={handleCrearVenta}
+        >
           Nueva Venta
         </button>
       </div>
       
-      {/* Tabla para mostrar las ventas */}
-      <div className="tabla-container">
+      <div id="tabla-ventas-container">
         <table id="tabla-ventas" className="tabla-negra">
           <thead>
             <tr>
-              <th className="columna">ID Venta</th>
-              <th className="columna">Monto Total</th>
-              <th className="columna">Empleado</th>
-              <th className="columna">Cliente</th>
-              <th className="columna">Fecha Hora</th>
-              <th className="columna">Acciones</th>
+              <th id="id-venta-col" className="columna">ID Venta</th>
+              <th id="monto-total-col" className="columna">Monto Total</th>
+              <th id="empleado-col" className="columna">Empleado</th>
+              <th id="cliente-col" className="columna">Cliente</th>
+              <th id="fecha-hora-col" className="columna">Fecha Hora</th>
+              <th id="acciones-col" className="columna">Acciones</th>
             </tr>
           </thead>
           <tbody className="cuerpo-tabla">
@@ -128,6 +134,14 @@ function FormVentas() {
           </tbody>
         </table>
       </div>
+
+      {/* Modal */}
+      {isModalOpen && ventaSeleccionada && (
+        <DetalleVenta 
+          venta={ventaSeleccionada} 
+          closeModal={() => setIsModalOpen(false)} 
+        />
+      )}
     </div>
   );
 }

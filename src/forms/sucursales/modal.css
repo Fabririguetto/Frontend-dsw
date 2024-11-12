@@ -1,54 +1,47 @@
-/* Estilo para el overlay (fondo oscuro que cubre toda la pantalla) */
+/* Estilo del fondo oscuro para el modal */
 .modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(0, 0, 0, 0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-  }
-  
-  /* Estilo para el contenido del modal */
-  .modal-content {
-    background-color: white;
-    padding: 20px;
-    border-radius: 8px;
-    max-width: 600px;
-    width: 100%;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    position: relative;
-    z-index: 1000; /* Asegúrate de que el modal esté debajo del botón */
-  }
-  
-  /* Botón para cerrar el modal */
-  .modal-close {
-    background: none;
-    border: none;
-    font-size: 20px;
-    color: #333;
-    cursor: pointer;
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    width: 30px; /* Establecer un tamaño específico para el área del botón */
-    height: 30px; /* Esto asegura que el botón de cerrar sea lo suficientemente grande */
-    display: flex; /* Flexbox para centrar el icono */
-    justify-content: center;
-    align-items: center;
-    z-index: 1050; /* Asegúrate de que esté encima del contenido */
-    padding: 5px 10px; /* Mantener forma rectangular */
-    border-radius: 4px; /* Bordes redondeados suaves, opcional */
-    transition: background-color 0.3s ease, border 0.3s ease; /* Suaviza la transición */
-  }
-  
-  /* Cambiar el color de fondo del botón al pasar el cursor */
-  .modal-close:hover {
-  background-color: #f44336; /* Rojo para Eliminar */
-  background-color: #c92020; /* Cambia el fondo por un color gris claro */
-    border: 2px solid #333; /* Añadir borde si se desea */
-    color: white; /* Cambiar el color de la "X" a blanco */
-  }
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7); /* Fondo oscuro con algo más de opacidad */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000; /* Asegura que el modal esté por encima de otros elementos */
+}
+
+/* Estilo para el contenido del modal */
+.modal-content {
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  max-width: 600px;
+  width: 90%; /* Ajuste para que sea más responsivo */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  position: relative;
+  z-index: 1001; /* Asegúrate de que el modal esté encima del fondo */
+  overflow-y: auto;
+}
+
+/* Estilo para el botón de cierre de la cruz */
+.modal-close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 24px;
+  cursor: pointer;
+  color: #333;
+  background: transparent;
+  border: none;
+}
+
+.modal-close:hover {
+  color: red;
+}
+
+/* Contenido adicional dentro del modal */
+.modal-body {
+  padding-top: 20px;
+}

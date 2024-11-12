@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import './detalle_venta.css'; // Asegúrate de tener los estilos de modal en un archivo CSS
 
-function DetalleVenta() {
-  const { idVenta } = useParams(); // Captura el idVenta de la URL
+function DetalleVenta({ venta, closeModal }) {
   const [detallesVenta, setDetallesVenta] = useState([]);
   const [loading, setLoading] = useState(true); // Estado de carga
 
   useEffect(() => {
     setLoading(true); // Empieza a cargar los datos
-    fetch(`http://localhost:3500/detalle_ventas/${idVenta}`)
+    fetch(`http://localhost:3500/detalle_ventas/${venta.idVenta}`)
       .then((response) => response.json())
       .then((data) => {
         if (Array.isArray(data)) {
@@ -23,9 +22,8 @@ function DetalleVenta() {
         console.error('Error fetching venta:', error);
         setLoading(false); // En caso de error, finaliza la carga
       });
-  }, [idVenta]);
+  }, [venta]);
 
-  // Función para renderizar los detalles de la venta
   const renderDetalles = () => {
     if (detallesVenta.length === 0) {
       return (
@@ -50,22 +48,25 @@ function DetalleVenta() {
   }
 
   return (
-    <div>
-      <h1>Detalle de la Venta {idVenta}</h1>
-      <div className="tabla-container">
-        <table className="tabla-negra">
-          <thead>
-            <tr>
-              <th>Artículo</th>
-              <th>Descripción</th>
-              <th>Cantidad Vendida</th>
-              <th>Subtotal</th>
-            </tr>
-          </thead>
-          <tbody>
-            {renderDetalles()}
-          </tbody>
-        </table>
+    <div className="modal">
+      <div className="modal-content">
+        <span className="close-btn" onClick={closeModal}>&times;</span>
+        <h2>Detalles de la Venta {venta.idVenta}</h2>
+        <div className="tabla-container">
+          <table className="tabla-negra">
+            <thead>
+              <tr>
+                <th>Artículo</th>
+                <th>Descripción</th>
+                <th>Cantidad Vendida</th>
+                <th>Subtotal</th>
+              </tr>
+            </thead>
+            <tbody>
+              {renderDetalles()}
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   );

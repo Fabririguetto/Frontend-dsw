@@ -65,6 +65,14 @@ button:hover {
   background-color: #357ab8;
 }
 
+#estado-sekect{
+  border: 20px !important;
+}
+
+.estado-sekect{
+  border: 20px !important;
+}
+
 /* Botón Agregar Producto */
 .btn-submit {
   background-color: #28a745; /* Verde para Agregar Producto */
@@ -77,12 +85,12 @@ button:hover {
 
 /* Botón Limpiar Formulario */
 .btn-reset {
-  background-color: #ffc107; /* Amarillo para Limpiar Formulario */
+  background-color: #54534f; /* Amarillo para Limpiar Formulario */
   color: white;
 }
 
 .btn-reset:hover {
-  background-color: #e0a800; /* Amarillo más oscuro */
+  background-color: #383734; /* Amarillo más oscuro */
 }
 
 /* Tablas */
@@ -121,7 +129,7 @@ tbody tr:hover {
 
 /* Botones Editar y Eliminar */
 .btn-edit {
-  background-color: #007bff; /* Azul claro para Editar */
+  background-color: #ffc107; /* Azul claro para Editar */
   color: white;
   border: none;
   padding: 8px 15px;
@@ -131,7 +139,7 @@ tbody tr:hover {
 }
 
 .btn-edit:hover {
-  background-color: #0056b3; /* Azul un poco más oscuro */
+  background-color: #e0a800; /* Azul un poco más oscuro */
 }
 
 .btn-delete {

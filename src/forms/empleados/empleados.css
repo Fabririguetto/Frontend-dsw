@@ -67,11 +67,11 @@
 
 /* Estilo para el botón de Modificar */
 .card-button-modificar {
-    background-color: #007bff;
+    background-color: #ffc107;
 }
 
 .card-button-modificar:hover {
-    background-color: #0056b3;
+    background-color: #e0a800;
 }
 
 /* Estilo para el botón de Eliminar */

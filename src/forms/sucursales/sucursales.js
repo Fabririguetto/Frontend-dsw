@@ -61,7 +61,7 @@ function FormSucursales() {
             <p className="card-text sucursal-direccion">Dirección: {sucursal.direccion}</p>
             <div className="card-button-container sucursal-button-container">
               <button
-                className="card-button sucursal-button"
+                className="card-button"
                 onClick={() => handleVerDetalles(sucursal)}
               >
                 Ver Detalles

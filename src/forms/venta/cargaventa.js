@@ -30,7 +30,7 @@ function DetalleCargarVenta() {
     await finalizarVenta();
 
     try {
-      const response = await fetch(`http://localhost:3500/ventas/${idVenta}`, {
+      const response = await fetch(`http://localhost:3500/ventasmonto/${idVenta}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -44,13 +44,15 @@ function DetalleCargarVenta() {
 
       if (response.ok) {
         alert('Venta actualizada con éxito');
-        window.close();
+        
       } else {
-        alert('Error al actualizar la venta');
+        alert('Error al actualizar asd la venta');
       }
+      //window.close();
     } catch (error) {
       console.error('Error de red:', error);
-      alert('Error al actualizar la venta');
+      alert('Error al actualizar  gfd8 la venta');
+     
     }
   };
 

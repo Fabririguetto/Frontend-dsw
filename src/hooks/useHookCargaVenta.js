@@ -27,7 +27,7 @@ export const useHookCargaVenta = (idVenta) => {
 
   const actualizarMontoTotal = async () => {
     try {
-      const responseVenta = await fetch(`http://localhost:3500/ventas/${idVenta}`, {
+      const responseVenta = await fetch(`http://localhost:3500/ventasmonto/${idVenta}`, {
         method: 'PUT', // Actualizar la venta
         headers: {
           'Content-Type': 'application/json',
