@@ -1,4 +1,3 @@
-// src/hooks/useEmpleados.js
 import { useEffect, useState } from 'react';
 
 const useEmpleados = () => {
@@ -10,6 +9,7 @@ const useEmpleados = () => {
   const [contacto, setContacto] = useState('');
   const [sucursal, setSucursal] = useState('');
   const [isEditMode, setIsEditMode] = useState(false);
+ 
 
   useEffect(() => {
     fetchEmpleados();
@@ -41,127 +41,79 @@ const useEmpleados = () => {
   };
 
   const createEmpleado = (empleado) => {
-    console.log('Contenido del empleado antes de enviar:', empleado);
     fetch('http://localhost:3500/empleados', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(empleado),
     })
-      .then((response) => response.json())
       .then(() => {
         fetchEmpleados();
         resetForm();
       })
-      .catch((error) => {
-        console.error('Error al ingresar el empleado:', error);
-      });
+      .catch((error) => console.error('Error al ingresar el empleado:', error));
   };
 
   const updateEmpleado = (id, empleado) => {
     fetch(`http://localhost:3500/empleados/${id}`, {
       method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(empleado),
     })
-      .then((response) => response.json())
       .then(() => {
         fetchEmpleados();
         resetForm();
       })
-      .catch((error) => {
-        console.error('Error al modificar el empleado:', error);
-      });
+      .catch((error) => console.error('Error al modificar el empleado:', error));
   };
 
-  const handleSearchEmpleados = async (nombre) => {
-    let url = 'http://localhost:3500/empleados';
-  
-    if (nombre) {
-      url += `?nombre=${encodeURIComponent(nombre)}`;
-    }
-  
-    try {
-      const response = await fetch(url, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-  
-      if (!response.ok) {
-        throw new Error(`Network response was not ok: ${response.statusText}`);
-      }
-  
-      const clientes = await response.json();
-      console.log('Clientes encontrados:', clientes);
-  
-      if (Array.isArray(clientes)) {
-        setEmpleados(clientes);
-      }
-    } catch (error) {
-      console.error('Error fetching empleados:', error);
-    }
-  };
-  
-
-const handleIngresar = () => {
-  if (isEditMode) {
-    //Actualizar empleado
-    const updatedEmpleados = empleados.map((empleado) => 
-      empleado.DNI_CUIL === selectedEmpleado.DNI_CUIL
-        ? { ...empleado, nombre_apellidoEmp: nombreApellido, contacto, sucursal }
-        : empleado
-    );
-    setEmpleados(updatedEmpleados);
-    setIsEditMode(false); // Salir del modo de edición
-  } else {
-    //Ingresar nuevo empleado
-    const nuevoEmpleado = {
+  const handleIngresar = () => {
+    const empleado = {
       DNI_CUIL: dniCuil,
       nombre_apellidoEmp: nombreApellido,
       contacto,
-      nombreSucursal: sucursales.find(suc => suc.idSucursal === sucursal)?.nombreSucursal || '',
-      sucursal: sucursal,
+      sucursal,
     };
-    setEmpleados([...empleados, nuevoEmpleado]);
-  }
+    if (isEditMode && selectedEmpleado) {
+      updateEmpleado(selectedEmpleado.DNI_CUIL, empleado);
+    } else {
+      createEmpleado(empleado);
+    }
+  };
 
-  //Limpiar el formulario
-  resetForm();
-};
-const handleSelectEmpleado = (empleado) => {
-  setSelectedEmpleado(empleado);
-  setDniCuil(empleado.DNI_CUIL);
-  setNombreApellido(empleado.nombre_apellidoEmp);
-  setContacto(empleado.contacto);
-  setSucursal(empleado.sucursal);
-  setIsEditMode(true);
-};
-
-//Función para alternar entre el modo de edición y el de nuevo ingreso
-const toggleEditMode = () => {
-  if (isEditMode) {
-    //Si está en modo edición, salir de ese modo
-    setIsEditMode(false);
-    resetForm();
-  } else {
-    //Si no está en modo edición, habilitarlo
+  const handleSelectEmpleado = (empleado) => {
+    setSelectedEmpleado(empleado);
+    setDniCuil(empleado.DNI_CUIL);
+    setNombreApellido(empleado.nombre_apellidoEmp);
+    setContacto(empleado.contacto);
+    setSucursal(empleado.idSucursal);
     setIsEditMode(true);
-  }
-};
+  };
 
-//Función para restablecer el formulario
-const resetForm = () => {
-  setDniCuil('');
-  setNombreApellido('');
-  setContacto('');
-  setSucursal('');
-};
+  const handleSearchEmpleados = (searchTerm) => {
+    let url = 'http://localhost:3500/empleados';
 
+    if (searchTerm) {
+      url += `?nombre=${encodeURIComponent(searchTerm)}`;
+    }
+
+    fetch(url)
+      .then((response) => response.json())
+      .then((data) => {
+        setEmpleados(data);
+      })
+      .catch((error) => {
+        console.error('Error fetching empleados:', error);
+      });
+  };
+
+  const resetForm = () => {
+    setDniCuil('');
+    setNombreApellido('');
+    setContacto('');
+    setSucursal('');
+    setSelectedEmpleado(null);
+    setIsEditMode(false);
+  };
 
   return {
     empleados,
@@ -176,12 +128,10 @@ const resetForm = () => {
     setSucursal,
     handleIngresar,
     handleSelectEmpleado,
-    handleSearchEmpleados,
-    toggleEditMode,
+    handleSearchEmpleados, // Asegúrate de exportar la función
     isEditMode,
     resetForm,
   };
 };
 
 export default useEmpleados;
-

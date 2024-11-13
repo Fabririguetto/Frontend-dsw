@@ -45,12 +45,12 @@ function FormEmpleados() {
               >
                 Editar
               </button>
-              <button
+              {/* <button
                 className="card-button card-button-eliminar"
                 onClick={() => handleEliminarEmpleado(empleado.DNI_CUIL)}
               >
                 Eliminar
-              </button>
+              </button> */}
             </div>
           </div>
         ))}
@@ -66,6 +66,11 @@ function FormEmpleados() {
     ));
   };
 
+  const handleFormSubmit = (e) => {
+    e.preventDefault();
+    handleIngresar(); // Se encargará de ingresar o actualizar, según el modo
+  };
+
   return (
     <div className="App">
       <header className="App-header">
@@ -76,7 +81,7 @@ function FormEmpleados() {
           onChange={(e) => handleSearchEmpleados(e.target.value)} // Manejar búsqueda
         />
       </header>
-      <form onSubmit={(e) => { e.preventDefault(); handleIngresar(); }}>
+      <form onSubmit={handleFormSubmit}>
         <input
           type="text"
           placeholder="DNI/CUIL"

@@ -14,24 +14,17 @@ function FormStock() {
     handleElim,
     requestSort,
     resetForm,
+    page,  // Deberías obtener estos desde el hook
+    limit, // Deberías obtener estos desde el hook
+    setPage,  // Funciones para cambiar el estado de paginación
+    setLimit, // Funciones para cambiar el estado de límite
   } = useStock();
 
   return (
     <div>
       <div className="App-header">
-        <select
-          id="estado-select"
-          classname="estado-select"
-          value={filters.estado}
-          onChange={handleFilterChange}
-        >
-          <option value="Disponible">Disponible</option>
-          <option value="Baja">Baja</option>
-        </select>
-
         <input
           type="text"
-          
           name="nombreProducto"
           value={filters.nombreProducto}
           onChange={handleFilterChange}
@@ -69,14 +62,12 @@ function FormStock() {
         />
         <button
           type="submit"
-          id="btn-agregar-producto" /* ID único para Agregar Producto */
           className="btn-submit"
         >
           {formData.idProducto ? 'Actualizar Producto' : 'Agregar Producto'}
         </button>
         <button
           type="button"
-          id="btn-limpiar-formulario" /* ID único para Limpiar Formulario */
           className="btn-reset"
           onClick={resetForm}
         >
@@ -103,14 +94,12 @@ function FormStock() {
               <td>{`$${(producto.monto ? Number(producto.monto).toFixed(2) : '0.00')}`}</td>
               <td>
                 <button
-                  id={`edit-${producto.idProducto}`} /* ID único para Editar */
                   className="btn-edit"
                   onClick={() => handleEdit(producto)}
                 >
                   Editar
                 </button>
                 <button
-                  id={`delete-${producto.idProducto}`} /* ID único para Eliminar */
                   className="btn-delete"
                   onClick={() => handleElim(producto.idProducto, producto.estado)}
                 >
@@ -121,6 +110,16 @@ function FormStock() {
           ))}
         </tbody>
       </table>
+      <div className="pagination">
+        <button onClick={() => setPage(Math.max(page - 1, 1))}>Anterior</button>
+        <span>{`Página ${page}`}</span>
+        <button onClick={() => setPage(page + 1)}>Siguiente</button>
+      </div>
+      <select onChange={(e) => setLimit(Number(e.target.value))} value={limit}>
+          <option value={10}>10</option>
+          <option value={20}>20</option>
+          <option value={50}>50</option>
+      </select>
     </div>
   );
 }

@@ -10,23 +10,28 @@ function useStock() {
     idProducto: '',
   });
   const [filters, setFilters] = useState({
-    estado: 'Alta',
+    estado: 'Disponible',
     nombreProducto: '',
   });
   const [sortConfig, setSortConfig] = useState({ key: 'idProducto', direction: 'ascending' });
+  const [pagina, setPagina] = useState(0);  // Página actual
+  const [limite, setLimite] = useState(10);  // Límite de productos por página
 
   useEffect(() => {
     fetchProductos();
-  }, []);
+  }, [filters, pagina, limite]); // Recargar cuando cambian los filtros, página o límite
 
-  const fetchProductos = () => {
-    fetch('http://localhost:3500/stock')
-      .then((response) => response.json())
-      .then((productos) => setProductos(Array.isArray(productos) ? productos : []))
-      .catch((error) => {
-        console.error('Error fetching productos:', error);
-        setProductos([]);
-      });
+  const fetchProductos = async () => {
+    // Construir la URL con los parámetros actuales
+    const url = `http://localhost:3500/stock?producto=${filters.nombreProducto}`;
+
+    // Imprimir la URL y los parámetros en la consola
+    console.log('URL con parámetros:', url);
+
+    // Realizar la solicitud
+    const response = await fetch(url);
+    const data = await response.json();
+    setProductos(data);
   };
 
   const handleInputChange = (e) => {
@@ -36,8 +41,8 @@ function useStock() {
 
   const handleFilterChange = (e) => {
     const { name, value } = e.target;
-    setFilters({ ...filters, [name]: value });
-    handleSearch({ ...filters, [name]: value });
+    const newFilters = { ...filters, [name]: value };
+    setFilters(newFilters);
   };
 
   const handleSubmit = (e) => {
@@ -45,12 +50,19 @@ function useStock() {
     formData.idProducto ? updateProducto(formData.idProducto, formData) : createProducto(formData);
   };
 
-  const sendRequest = (url, method, body) => {
-    return fetch(url, {
-      method,
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(body),
-    }).then((response) => response.json());
+  const sendRequest = async (url, method, body) => {
+    try {
+      const response = await fetch(url, {
+        method,
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body),
+      });
+      if (!response.ok) throw new Error('Error en la solicitud');
+      return await response.json();
+    } catch (error) {
+      console.error('Error en la solicitud:', error);
+      throw error;
+    }
   };
 
   const createProducto = (producto) => {
@@ -71,17 +83,9 @@ function useStock() {
       .catch((error) => console.error('Error al modificar el producto:', error));
   };
 
-  const handleSearch = ({ estado, nombreProducto }) => {
-    let url = `http://localhost:3500/stock?estado=${encodeURIComponent(estado)}`;
-    if (nombreProducto) url += `&producto=${encodeURIComponent(nombreProducto)}`;
-
-    fetch(url)
-      .then((response) => response.json())
-      .then((productos) => setProductos(Array.isArray(productos) ? productos : []))
-      .catch((error) => {
-        console.error('Error al buscar productos:', error);
-        setProductos([]);
-      });
+  const handleSearch = () => {
+    setPagina(0);  // Reiniciar a la primera página en caso de búsqueda nueva
+    fetchProductos();
   };
 
   const handleEdit = (producto) => {
@@ -123,6 +127,14 @@ function useStock() {
     return 0;
   });
 
+  const handlePageChange = (newPage) => {
+    setPagina(newPage);
+  };
+
+  const handleLimitChange = (newLimit) => {
+    setLimite(newLimit);
+  };
+
   return {
     productos,
     sortedProductos,
@@ -135,6 +147,10 @@ function useStock() {
     handleElim,
     requestSort,
     resetForm,
+    pagina,
+    limite,
+    handlePageChange,
+    handleLimitChange,
   };
 }
 

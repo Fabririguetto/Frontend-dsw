@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import './detalle_venta.css'; // Asegúrate de tener los estilos de modal en un archivo CSS
+import './detalle_Venta.css'; // Asegúrate de tener los estilos de modal en un archivo CSS
 
 function DetalleVenta({ venta, closeModal }) {
   const [detallesVenta, setDetallesVenta] = useState([]);

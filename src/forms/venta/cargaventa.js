@@ -1,10 +1,10 @@
 import { useParams } from 'react-router-dom';
 import { useHookCargaVenta } from '../../hooks/useHookCargaVenta';
+import './cargaventa.css';
 
 function DetalleCargarVenta() {
   const { idVenta } = useParams();  // Obtiene el idVenta de la URL
-  console.log(idVenta); // Obtenemos el id_venta de la URL
-    
+
   // Usamos el hook personalizado
   const {
     articulos,
@@ -19,71 +19,63 @@ function DetalleCargarVenta() {
     finalizarVenta // Añadimos la función para finalizar la venta
   } = useHookCargaVenta(idVenta);
 
-  // Función para calcular el subtotal de un artículo
   const calcularSubtotal = (precio, cantidad) => {
     return precio * cantidad;
   };
 
-  // Función para finalizar la venta y actualizar el monto total
   const handleFinalizarVenta = async () => {
-    // Llamamos a la función de finalizarVenta
     await finalizarVenta();
 
     try {
-      const response = await fetch(`http://localhost:3500/ventasmonto/${idVenta}`, {
+      const response = await fetch(`http://localhost:3500/ventas/${idVenta}`, {
         method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          totalVenta, // Monto total actualizado
-        }),
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ totalVenta })
       });
-
-      const data = await response.json();
 
       if (response.ok) {
         alert('Venta actualizada con éxito');
-        
       } else {
-        alert('Error al actualizar asd la venta');
+        alert('Error al actualizar la venta');
       }
-      //window.close();
     } catch (error) {
       console.error('Error de red:', error);
-      alert('Error al actualizar  gfd8 la venta');
-     
+      alert('Error al actualizar la venta');
     }
   };
 
   return (
-    <div>
-      <h1>Agregar Artículos a la Venta {idVenta}</h1>
+    <div id="detalle-cargar-venta">
+      <h1 id="titulo-venta">Agregar Artículos a la Venta {idVenta}</h1>
 
-      <div>
-        <select onChange={(e) => setArticuloSeleccionado(Number(e.target.value))} value={articuloSeleccionado}>
-            <option value="">Selecciona un artículo</option>
-            {articulos.map((articulo) => (
-                <option key={articulo.idProducto} value={articulo.idProducto}>
-                {articulo.articulo} - {articulo.descripcion} - ${articulo.monto}
-                </option>
-            ))}
+      <div id="formulario-venta">
+        <select 
+          id="select-articulo"
+          onChange={(e) => setArticuloSeleccionado(Number(e.target.value))} 
+          value={articuloSeleccionado}
+        >
+          <option value="">Selecciona un artículo</option>
+          {articulos.map((articulo) => (
+            <option key={articulo.idProducto} value={articulo.idProducto}>
+              {articulo.articulo} - {articulo.descripcion} - ${articulo.monto}
+            </option>
+          ))}
         </select>
 
         <input
           type="number"
+          id="input-cantidad"
+          placeholder='Cantidad'
           value={cantidad}
           onChange={(e) => setCantidad(e.target.value)}
-          min="1"
         />
 
-        <button onClick={agregarArticuloAVenta}>Agregar a Venta</button>
+        <button id="boton-agregar" onClick={agregarArticuloAVenta}>Agregar a Venta</button>
       </div>
 
-      {/* Tabla para mostrar los productos agregados a la venta */}
-      <div>
-        <h2>Productos en la Venta</h2>
-        <table>
+      <div id="productos-en-venta">
+        <h2 id="titulo-productos">Productos en la Venta</h2>
+        <table id="tabla-productos">
           <thead>
             <tr>
               <th>Artículo</th>
@@ -101,20 +93,23 @@ function DetalleCargarVenta() {
                 <td>{producto.monto}</td>
                 <td>{calcularSubtotal(producto.monto, producto.cantidad)}</td>
                 <td>
-                  <button onClick={() => eliminarArticuloAVenta(producto.idProducto)}>Eliminar</button>
+                  <button 
+                    id={`boton-eliminar-${index}`} 
+                    onClick={() => eliminarArticuloAVenta(producto.idProducto)}
+                  >
+                    Eliminar
+                  </button>
                 </td>
               </tr>
             ))}
           </tbody>
         </table>
 
-        {/* Mostrar Total de la Venta */}
-        <div>
+        <div id="total-venta">
           <h3>Total Venta: ${totalVenta}</h3>
         </div>
 
-        {/* Botón para finalizar la venta */}
-        <button onClick={handleFinalizarVenta}>Finalizar Venta</button>
+        <button id="boton-finalizar" onClick={handleFinalizarVenta}>Finalizar Venta</button>
       </div>
     </div>
   );
