@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 
 function useStock() {
   const [productos, setProductos] = useState([]);
+  const [totalProductos, setTotalProductos] = useState(0); // Total de productos
   const [formData, setFormData] = useState({
     articulo: '',
     descripcion: '',
@@ -14,25 +15,68 @@ function useStock() {
     nombreProducto: '',
   });
   const [sortConfig, setSortConfig] = useState({ key: 'idProducto', direction: 'ascending' });
-  const [pagina, setPagina] = useState(0);  // Página actual
-  const [limite, setLimite] = useState(10);  // Límite de productos por página
+  const [page, setPage] = useState(0);
+  const [limit, setLimit] = useState(5);
+  
+  const fetchProductos = async () => {
+    const nombreProducto = filters.nombreProducto || '';
+    const estado = filters.estado || '';  // Si necesitas usar el estado en el filtro
+  
+    // Validar el límite y la página
+    const maxLimit = 40;  // Límite máximo
+    const minLimit = 20;  // Límite mínimo
+    const maxPage = Math.ceil(totalProductos / limit); // Total de páginas
+  
+    // Validar límite
+    const validatedLimit = limit > maxLimit ? maxLimit : (limit < minLimit ? minLimit : limit);
+  
+    // Validar página
+    const validatedPage = page >= maxPage ? maxPage - 1 : (page < 0 ? 0 : page);
+  
+    const url = `http://localhost:3500/stock?producto=${nombreProducto}&pagina=${validatedPage}&limite=${validatedLimit}`;
+  
+    try {
+      const response = await fetch(url);
+      const data = await response.json();
+      
+      if (Array.isArray(data.productos)) {
+        setProductos(data.productos);  // Establecer productos
+        setTotalProductos(data.totalProductos);  // Establecer total de productos
+      } else {
+        console.error("La respuesta no es un array válido");
+        setProductos([]);
+      }
+    } catch (error) {
+      console.error('Error al obtener productos:', error);
+      setProductos([]);
+    }
+  };
+
+  const sendRequest = async (url, method = 'GET', body = null) => {
+    const options = {
+      method,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    };
+  
+    if (body) {
+      options.body = JSON.stringify(body);  // Solo agregar el cuerpo para POST o PUT
+    }
+  
+    try {
+      const response = await fetch(url, options);
+      const data = await response.json();
+      return data;  // Devolver los datos de la respuesta
+    } catch (error) {
+      console.error('Error en la solicitud:', error);
+      throw error;
+    }
+  };
 
   useEffect(() => {
-    fetchProductos();
-  }, [filters, pagina, limite]); // Recargar cuando cambian los filtros, página o límite
-
-  const fetchProductos = async () => {
-    // Construir la URL con los parámetros actuales
-    const url = `http://localhost:3500/stock?producto=${filters.nombreProducto}`;
-
-    // Imprimir la URL y los parámetros en la consola
-    console.log('URL con parámetros:', url);
-
-    // Realizar la solicitud
-    const response = await fetch(url);
-    const data = await response.json();
-    setProductos(data);
-  };
+    fetchProductos();  // Llamar a la función para obtener productos
+  }, [page, limit, filters]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -41,28 +85,12 @@ function useStock() {
 
   const handleFilterChange = (e) => {
     const { name, value } = e.target;
-    const newFilters = { ...filters, [name]: value };
-    setFilters(newFilters);
+    setFilters((prevFilters) => ({ ...prevFilters, [name]: value }));
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     formData.idProducto ? updateProducto(formData.idProducto, formData) : createProducto(formData);
-  };
-
-  const sendRequest = async (url, method, body) => {
-    try {
-      const response = await fetch(url, {
-        method,
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(body),
-      });
-      if (!response.ok) throw new Error('Error en la solicitud');
-      return await response.json();
-    } catch (error) {
-      console.error('Error en la solicitud:', error);
-      throw error;
-    }
   };
 
   const createProducto = (producto) => {
@@ -80,14 +108,14 @@ function useStock() {
         fetchProductos();
         resetForm();
       })
-      .catch((error) => console.error('Error al modificar el producto:', error));
+      .catch((error) => console.error('Error al actualizar el producto:', error));
   };
 
-  const handleSearch = () => {
-    setPagina(0);  // Reiniciar a la primera página en caso de búsqueda nueva
-    fetchProductos();
+  const resetForm = () => {
+    setFormData({ articulo: '', descripcion: '', cantidad: '', monto: '', idProducto: '' });
   };
 
+  // Para editar un producto
   const handleEdit = (producto) => {
     setFormData({
       idProducto: producto.idProducto,
@@ -98,45 +126,35 @@ function useStock() {
     });
   };
 
-  const handleElim = (id, estadoActual) => {
-    if (window.confirm('¿Seguro que quieres cambiar el estado de este producto?')) {
-      sendRequest(`http://localhost:3500/stockelim/${id}`, 'PUT', { estado: estadoActual })
-        .then(() => fetchProductos())
+  // Para eliminar un producto
+  const handleElim = (idProducto) => {
+    const confirmDelete = window.confirm('¿Estás seguro de que deseas eliminar este producto?');
+    if (confirmDelete) {
+      sendRequest(`http://localhost:3500/stock/${idProducto}`, 'DELETE')
+        .then(() => fetchProductos())  // Recargar los productos después de eliminar
         .catch((error) => console.error('Error al eliminar el producto:', error));
     }
   };
 
-  const resetForm = () => {
-    setFormData({
-      articulo: '',
-      descripcion: '',
-      cantidad: '',
-      monto: '',
-      idProducto: '',
-    });
-  };
-
   const requestSort = (key) => {
-    const direction = sortConfig.key === key && sortConfig.direction === 'ascending' ? 'descending' : 'ascending';
+    let direction = 'ascending';
+    if (sortConfig.key === key && sortConfig.direction === 'ascending') {
+      direction = 'descending';
+    }
     setSortConfig({ key, direction });
   };
 
   const sortedProductos = [...productos].sort((a, b) => {
-    if (a[sortConfig.key] < b[sortConfig.key]) return sortConfig.direction === 'ascending' ? -1 : 1;
-    if (a[sortConfig.key] > b[sortConfig.key]) return sortConfig.direction === 'ascending' ? 1 : -1;
+    if (a[sortConfig.key] < b[sortConfig.key]) {
+      return sortConfig.direction === 'ascending' ? -1 : 1;
+    }
+    if (a[sortConfig.key] > b[sortConfig.key]) {
+      return sortConfig.direction === 'ascending' ? 1 : -1;
+    }
     return 0;
   });
 
-  const handlePageChange = (newPage) => {
-    setPagina(newPage);
-  };
-
-  const handleLimitChange = (newLimit) => {
-    setLimite(newLimit);
-  };
-
   return {
-    productos,
     sortedProductos,
     formData,
     filters,
@@ -147,10 +165,11 @@ function useStock() {
     handleElim,
     requestSort,
     resetForm,
-    pagina,
-    limite,
-    handlePageChange,
-    handleLimitChange,
+    page,
+    limit,
+    setPage,
+    setLimit,
+    totalProductos,
   };
 }
 

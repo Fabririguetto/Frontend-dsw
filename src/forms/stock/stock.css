@@ -155,3 +155,7 @@ tbody tr:hover {
 .btn-delete:hover {
   background-color: #c82333; /* Rojo más oscuro */
 }
+
+.pagination{
+  display: flex;
+}

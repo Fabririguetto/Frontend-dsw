@@ -1,5 +1,13 @@
 import React from 'react';
 import useStock from '../../hooks/useHookStock';
+import TablePagination from '@mui/material/TablePagination';
+import TableFooter from '@mui/material/TableFooter';
+import TableRow from '@mui/material/TableRow';
+import { IconButton } from '@mui/material';
+import FirstPageIcon from '@mui/icons-material/FirstPage';
+import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
+import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
+import LastPageIcon from '@mui/icons-material/LastPage';
 import './stock.css';
 
 function FormStock() {
@@ -14,10 +22,11 @@ function FormStock() {
     handleElim,
     requestSort,
     resetForm,
-    page,  // Deberías obtener estos desde el hook
-    limit, // Deberías obtener estos desde el hook
-    setPage,  // Funciones para cambiar el estado de paginación
-    setLimit, // Funciones para cambiar el estado de límite
+    page,
+    limit,
+    setPage,  
+    setLimit,
+    totalProductos,  // Asegúrate de tener este valor para mostrar la cantidad de páginas correctas
   } = useStock();
 
   return (
@@ -109,17 +118,59 @@ function FormStock() {
             </tr>
           ))}
         </tbody>
+        <TableFooter>
+          <TableRow>
+            <TablePagination
+              className='pagination'
+              rowsPerPageOptions={[20, 30, 40]}
+              colSpan={3}
+              count={totalProductos}  // Total de productos
+              rowsPerPage={limit}
+              page={page}
+              ActionsComponent={TablePaginationActions}
+              onPageChange={(e, newPage) => setPage(newPage)}
+              onRowsPerPageChange={(e) => setLimit(Number(e.target.value))}
+            />
+          </TableRow>
+        </TableFooter>
       </table>
-      <div className="pagination">
-        <button onClick={() => setPage(Math.max(page - 1, 1))}>Anterior</button>
-        <span>{`Página ${page}`}</span>
-        <button onClick={() => setPage(page + 1)}>Siguiente</button>
-      </div>
-      <select onChange={(e) => setLimit(Number(e.target.value))} value={limit}>
-          <option value={10}>10</option>
-          <option value={20}>20</option>
-          <option value={50}>50</option>
-      </select>
+    </div>
+  );
+}
+
+function TablePaginationActions(props) {
+  const { count, page, rowsPerPage, onPageChange } = props;
+
+  const handleFirstPageButtonClick = (event) => {
+    onPageChange(event, 0);
+  };
+
+  const handleBackButtonClick = (event) => {
+    onPageChange(event, page - 1);
+  };
+
+  const handleNextButtonClick = (event) => {
+    onPageChange(event, page + 1);
+  };
+
+  const handleLastPageButtonClick = (event) => {
+    onPageChange(event, Math.max(0, Math.ceil(count / rowsPerPage) - 1));
+  };
+
+  return (
+    <div>
+      <IconButton onClick={handleFirstPageButtonClick} disabled={page === 0}>
+        <FirstPageIcon />
+      </IconButton>
+      <IconButton onClick={handleBackButtonClick} disabled={page === 0}>
+        <KeyboardArrowLeftIcon />
+      </IconButton>
+      <IconButton onClick={handleNextButtonClick} disabled={page >= Math.ceil(count / rowsPerPage) - 1}>
+        <KeyboardArrowRightIcon />
+      </IconButton>
+      <IconButton onClick={handleLastPageButtonClick} disabled={page >= Math.ceil(count / rowsPerPage) - 1}>
+        <LastPageIcon />
+      </IconButton>
     </div>
   );
 }
