@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter, NavLink, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, NavLink, Route, Routes, Navigate } from 'react-router-dom';
 import Stock from './forms/stock/stock';
 import Clientes from './forms/clientes/clientes';
 import Sucursales from './forms/sucursales/sucursales';
@@ -14,8 +14,8 @@ function App() {
       <div className="App">
         <header className="App-header">
           <nav>
-            <NavLink to="/stock" activeClassName="active">Stock</NavLink>
             <NavLink to="/ventas" activeClassName="active">Ventas</NavLink>
+            <NavLink to="/stock" activeClassName="active">Stock</NavLink>
             <NavLink to="/clientes" activeClassName="active">Clientes</NavLink>
             <NavLink to="/empleados" activeClassName="active">Empleados</NavLink>
             <NavLink to="/sucursales" activeClassName="active">Sucursales</NavLink>
@@ -24,6 +24,9 @@ function App() {
 
         <div className="Content">
           <Routes>
+            {/* Ruta predeterminada que redirige a /ventas */}
+            <Route path="/" element={<Navigate to="/ventas" />} />
+
             <Route path="/stock" element={<Stock />} />
             <Route path="/clientes" element={<Clientes />} />
             <Route path="/sucursales" element={<Sucursales />} />
