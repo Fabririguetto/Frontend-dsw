@@ -52,14 +52,23 @@ export const useHookCargaVenta = (idVenta) => {
   };
   
 // Función para agregar un artículo a la venta
+// Función para agregar un artículo a la venta con validación de stock
 const agregarArticuloAVenta = () => {
-  if (!articuloSeleccionado || cantidad <= 0) return;
+  if (!articuloSeleccionado || cantidad <= 0) {
+    alert('Seleccione un artículo válido y una cantidad mayor a 0.');
+    return;
+  }
 
   const articulo = articulos.find((a) => a.idProducto === articuloSeleccionado);
 
-  // Validación adicional si no se encuentra el artículo
   if (!articulo) {
-    alert("El artículo seleccionado no es válido.");
+    alert('El artículo seleccionado no es válido.');
+    return;
+  }
+
+  // Validar que la cantidad no sea mayor al stock disponible
+  if (cantidad > articulo.cantidad) {
+    alert(`No hay suficiente stock para el artículo seleccionado. Stock disponible: ${articulo.cantidad}.`);
     return;
   }
 
@@ -79,6 +88,7 @@ const agregarArticuloAVenta = () => {
   setArticuloSeleccionado('');
   setCantidad(1);
 };
+
 
 
   // Función para agregar un artículo a la venta
