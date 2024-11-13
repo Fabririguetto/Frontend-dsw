@@ -3,7 +3,6 @@ import { useEffect, useState } from 'react';
 export const useHookVen = () => {
   const [ventas, setVentas] = useState([]);
   const [clienteSeleccionado, setClienteSeleccionado] = useState(''); // Estado para el DNI del cliente
-  const [idClienteSeleccionado, setIdClienteSeleccionado] = useState(null); // Estado para almacenar el id_cliente
   const [filtro, setFiltro] = useState(''); // Estado para el filtro de búsqueda
 
   useEffect(() => {
@@ -36,7 +35,7 @@ export const useHookVen = () => {
   const fetchClientePorDni = (dni) => {
     if (!dni) {
       console.error('DNI vacío o no proporcionado');
-      return Promise.resolve(false); // Evitar hacer la solicitud si el DNI está vacío
+      return Promise.resolve(null); // Evitar hacer la solicitud si el DNI está vacío
     }
 
     return fetch(`http://localhost:3500/clientesventa/${dni}`)
@@ -44,37 +43,41 @@ export const useHookVen = () => {
       .then((cliente) => {
         console.log('Respuesta del servidor:', cliente);
         if (cliente && cliente.idCliente) {
-          setIdClienteSeleccionado(cliente.idCliente);
-          return true;
+          return cliente.idCliente; // Devolver directamente el idCliente
         } else {
-          return false;
+          return null; // Cliente no encontrado
         }
       })
       .catch((error) => {
         console.error('Error fetching cliente:', error);
-        return false;
+        return null; // Retornar null si hay error
       });
   };
 
   // Función para validar si el cliente existe antes de crear la venta
   const validarCliente = async (dni) => {
-    const clienteValido = await fetchClientePorDni(dni);
-    if (!clienteValido) {
+    console.log('DNI recibido:', dni);  // Verifica que el valor recibido sea el DNI
+    
+    // Asegúrate de que fetchClientePorDni esté buscando por el DNI y no por el ID
+    const idCliente = await fetchClientePorDni(dni);
+    
+    if (!idCliente) {
       alert('Cliente no encontrado.');
-      setIdClienteSeleccionado(null);
+      return null;  // Retorna null si no encuentra el cliente
     }
-    return clienteValido;
+  
+    return idCliente;  // Si existe, retorna el ID del cliente
   };
 
   // Función para iniciar una venta
-  const iniciarVenta = async (montoTotal, DNIEmpleado, idClienteSeleccionado) => {
-    if (!clienteSeleccionado || !montoTotal || !DNIEmpleado) {
+  const iniciarVenta = async (montoTotal, DNIEmpleado, clienteDNI) => {
+    if (!clienteDNI || !montoTotal || !DNIEmpleado) {
       alert('Por favor, complete todos los campos antes de crear la venta.');
       return;
     }
 
-    const clienteValido = await validarCliente(clienteSeleccionado);
-    if (!clienteValido) {
+    const idCliente = await validarCliente(clienteDNI); // Validar cliente y obtener el idCliente
+    if (!idCliente) {
       return; // Si el cliente no es válido, no se crea la venta
     }
 
@@ -89,7 +92,7 @@ export const useHookVen = () => {
         body: JSON.stringify({
           montoTotal,
           DNIEmpleado,
-          idCliente: idClienteSeleccionado,
+          idCliente, // Usar directamente el idCliente obtenido
           fechaHoraVenta,
         }),
       });
@@ -120,6 +123,7 @@ export const useHookVen = () => {
         setVentas([]); // En caso de error, establecer ventas como un array vacío
       });
   };
+
   // Función para manejar el clic en detalle de venta
   const handleDetalleClick = (venta) => {
     const nuevaPestaña = window.open(`/detalle_venta/${venta.idVenta}`, '_blank');
@@ -145,6 +149,5 @@ export const useHookVen = () => {
     handleFilterChange,
     clienteSeleccionado,
     setClienteSeleccionado,
-    idClienteSeleccionado
   };
 };
