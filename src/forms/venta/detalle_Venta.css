@@ -1,4 +1,3 @@
-/* Estilos del modal */
 .modal {
     display: flex;
     justify-content: center;
@@ -8,8 +7,8 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5); /* Fondo oscuro */
-    z-index: 1000; /* Asegura que el modal esté por encima de otros elementos */
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1000; 
   }
   
   .modal-content {
@@ -34,7 +33,6 @@
     color: red;
   }
   
-  /* Tabla dentro del modal */
   .tabla-negra {
     width: 100%;
     border-collapse: collapse;

@@ -1,4 +1,3 @@
-// src/hooks/useSucursales.js
 import { useEffect, useState } from 'react';
 
 const useSucursales = () => {
@@ -12,11 +11,11 @@ const useSucursales = () => {
         if (Array.isArray(data)) {
           setSucursales(data);
         } else {
-          setSucursales([]); // En caso de que la respuesta no sea un array
+          setSucursales([]); 
         }
       } catch (error) {
         console.error('Error fetching sucursales:', error);
-        setSucursales([]); // En caso de error, establecer sucursales como un array vacío
+        setSucursales([]);
       }
     };
 

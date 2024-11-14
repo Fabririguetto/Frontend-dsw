@@ -20,7 +20,7 @@ function FormEmpleados() {
     toggleEditMode,
     isEditMode,
     resetForm,
-    handleEliminarEmpleado, // nuevo método para baja lógica
+    handleEliminarEmpleado,
   } = useEmpleados();
 
   const renderEmpleados = () => {
@@ -68,7 +68,7 @@ function FormEmpleados() {
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
-    handleIngresar(); // Se encargará de ingresar o actualizar, según el modo
+    handleIngresar(); 
   };
 
   return (
@@ -78,7 +78,7 @@ function FormEmpleados() {
           type="text"
           id="filtro-empleados"
           placeholder="Buscar empleados por nombre o DNI..."
-          onChange={(e) => handleSearchEmpleados(e.target.value)} // Manejar búsqueda
+          onChange={(e) => handleSearchEmpleados(e.target.value)}
         />
       </header>
       <form onSubmit={handleFormSubmit}>

@@ -1,4 +1,3 @@
-/* Estilos del modal */
 .modal {
   display: flex;
   justify-content: center;
@@ -8,11 +7,10 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.5); /* Fondo oscuro */
-  z-index: 1000; /* Asegura que el modal esté por encima de otros elementos */
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1000; 
 }
 
-/* Estilo para el contenido del modal */
 .modal-content {
   background-color: white;
   padding: 20px;
@@ -20,10 +18,9 @@
   width: 80%;
   max-width: 600px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  position: relative; /* Asegura que la cruz se posicione correctamente */
+  position: relative;
 }
 
-/* Estilo para el botón de cierre de la cruz */
 .close-btn {
   position: absolute;
   top: 10px;
@@ -32,10 +29,9 @@
 }
 
 .close-btn:hover {
-  color: red; /* Color de la cruz cuando se pasa el ratón por encima */
+  color: red; 
 }
 
-/* Tabla dentro del modal */
 .tabla-negra {
   width: 100%;
   border-collapse: collapse;

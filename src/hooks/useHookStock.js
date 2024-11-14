@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 
 function useStock() {
   const [productos, setProductos] = useState([]);
-  const [totalProductos, setTotalProductos] = useState(0); // Total de productos
+  const [totalProductos, setTotalProductos] = useState(0);
   const [formData, setFormData] = useState({
     articulo: '',
     descripcion: '',
@@ -20,17 +20,15 @@ function useStock() {
   
   const fetchProductos = async () => {
     const nombreProducto = filters.nombreProducto || '';
-    const estado = filters.estado || '';  // Si necesitas usar el estado en el filtro
+    const estado = filters.estado || ''; 
+
   
-    // Validar el límite y la página
-    const maxLimit = 40;  // Límite máximo
-    const minLimit = 20;  // Límite mínimo
-    const maxPage = Math.ceil(totalProductos / limit); // Total de páginas
+    const maxLimit = 40;  
+    const minLimit = 20;  
+    const maxPage = Math.ceil(totalProductos / limit); 
   
-    // Validar límite
     const validatedLimit = limit > maxLimit ? maxLimit : (limit < minLimit ? minLimit : limit);
   
-    // Validar página
     const validatedPage = page >= maxPage ? maxPage - 1 : (page < 0 ? 0 : page);
   
     const url = `http://localhost:3500/stock?producto=${nombreProducto}&pagina=${validatedPage}&limite=${validatedLimit}`;
@@ -40,8 +38,8 @@ function useStock() {
       const data = await response.json();
       
       if (Array.isArray(data.productos)) {
-        setProductos(data.productos);  // Establecer productos
-        setTotalProductos(data.totalProductos);  // Establecer total de productos
+        setProductos(data.productos);
+        setTotalProductos(data.totalProductos);
       } else {
         console.error("La respuesta no es un array válido");
         setProductos([]);
@@ -61,13 +59,13 @@ function useStock() {
     };
   
     if (body) {
-      options.body = JSON.stringify(body);  // Solo agregar el cuerpo para POST o PUT
+      options.body = JSON.stringify(body);
     }
   
     try {
       const response = await fetch(url, options);
       const data = await response.json();
-      return data;  // Devolver los datos de la respuesta
+      return data;
     } catch (error) {
       console.error('Error en la solicitud:', error);
       throw error;
@@ -75,7 +73,7 @@ function useStock() {
   };
 
   useEffect(() => {
-    fetchProductos();  // Llamar a la función para obtener productos
+    fetchProductos();
   }, [page, limit, filters]);
 
   const handleInputChange = (e) => {
@@ -115,7 +113,6 @@ function useStock() {
     setFormData({ articulo: '', descripcion: '', cantidad: '', monto: '', idProducto: '' });
   };
 
-  // Para editar un producto
   const handleEdit = (producto) => {
     setFormData({
       idProducto: producto.idProducto,
@@ -131,7 +128,7 @@ function useStock() {
     const confirmDelete = window.confirm('¿Estás seguro de que deseas eliminar este producto?');
     if (confirmDelete) {
       sendRequest(`http://localhost:3500/stock/${idProducto}`, 'DELETE')
-        .then(() => fetchProductos())  // Recargar los productos después de eliminar
+        .then(() => fetchProductos())
         .catch((error) => console.error('Error al eliminar el producto:', error));
     }
   };

@@ -51,8 +51,6 @@ export const useHookCargaVenta = (idVenta) => {
     }
   };
   
-// Función para agregar un artículo a la venta
-// Función para agregar un artículo a la venta con validación de stock
 const agregarArticuloAVenta = () => {
   if (!articuloSeleccionado || cantidad <= 0) {
     alert('Seleccione un artículo válido y una cantidad mayor a 0.');
@@ -66,7 +64,6 @@ const agregarArticuloAVenta = () => {
     return;
   }
 
-  // Validar que la cantidad no sea mayor al stock disponible
   if (cantidad > articulo.cantidad) {
     alert(`No hay suficiente stock para el artículo seleccionado. Stock disponible: ${articulo.cantidad}.`);
     return;
@@ -81,7 +78,7 @@ const agregarArticuloAVenta = () => {
 
   setProductosVenta((prevProductos) => {
     const nuevosProductos = [...prevProductos, nuevoProducto];
-    calcularTotalVenta(nuevosProductos); // Recalcular total cada vez que se agrega un producto
+    calcularTotalVenta(nuevosProductos);
     return nuevosProductos;
   });
 
@@ -91,7 +88,6 @@ const agregarArticuloAVenta = () => {
 
 
 
-  // Función para agregar un artículo a la venta
   const agregarProductosAVenta = async () => {
     try {
       const responseProductos = await fetch('http://localhost:3500/ventas/agregarProductosVenta', {
@@ -100,7 +96,7 @@ const agregarArticuloAVenta = () => {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          idVenta, // Ya tienes este ID de la venta
+          idVenta,
           productos: productosVenta.map((producto) => ({
             idProducto: producto.idProducto,
             cantidadVendida: producto.cantidad,
@@ -123,21 +119,17 @@ const agregarArticuloAVenta = () => {
     }
   };
   
-  // Función para calcular el total de la venta
   const calcularTotalVenta = (productos) => {
     const total = productos.reduce((acc, producto) => acc + producto.subtotal, 0);
     setTotalVenta(total);
   };
 
-  // Función para eliminar un artículo de la venta
   const eliminarArticuloAVenta = (idProducto) => {
     const productosActualizados = productosVenta.filter((producto) => producto.idProducto !== idProducto);
     setProductosVenta(productosActualizados);
     calcularTotalVenta(productosActualizados);
   };
 
-  // Función para finalizar la venta y actualizar el monto total
-  // Función para finalizar la venta y enviar los productos al backend
   const finalizarVenta = async () => {
     if (productosVenta.length === 0) {
       alert('Debe agregar al menos un producto para finalizar la venta.');
@@ -145,10 +137,8 @@ const agregarArticuloAVenta = () => {
     }
     
     try {
-      // Actualizar monto total de la venta
       await actualizarMontoTotal();
   
-      // Agregar productos a la venta
       await agregarProductosAVenta();
   
       alert('Venta finalizada y productos agregados correctamente.');
@@ -165,10 +155,9 @@ const agregarArticuloAVenta = () => {
     cantidad,
     setCantidad,
     agregarArticuloAVenta,
-    agregarProductosAVenta, // Cambia esto de agregarArticuloAVenta a agregarProductosAVenta
-    productosVenta,
+    agregarProductosAVenta, 
     totalVenta,
     eliminarArticuloAVenta,
-    finalizarVenta, // Exponer la función para finalizar la venta
+    finalizarVenta,
   };
 };

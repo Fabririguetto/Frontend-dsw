@@ -13,10 +13,10 @@ function DetalleCargarVenta() {
     cantidad,
     setCantidad,
     agregarArticuloAVenta,
-    productosVenta, // Asumimos que este es el estado con los productos agregados a la venta
-    totalVenta, // El total acumulado de la venta
+    productosVenta, 
+    totalVenta,
     eliminarArticuloAVenta,
-    finalizarVenta // Añadimos la función para finalizar la venta
+    finalizarVenta 
   } = useHookCargaVenta(idVenta);
 
   const calcularSubtotal = (precio, cantidad) => {

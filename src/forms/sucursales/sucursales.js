@@ -1,19 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import './sucursales.css';
-import Modal from './modal'; // Asegúrate de importar el Modal
+import Modal from './modal';
 
 function FormSucursales() {
   const [sucursales, setSucursales] = useState([]);
   const [filtro, setFiltro] = useState('');
-  const [showModal, setShowModal] = useState(false); // Controlar la visibilidad del modal
-  const [sucursalSeleccionada, setSucursalSeleccionada] = useState(null); // Detalle de la sucursal seleccionada
+  const [showModal, setShowModal] = useState(false);
+  const [sucursalSeleccionada, setSucursalSeleccionada] = useState(null);
 
-  // Función para manejar cambios en el filtro
   const handleFiltroChange = (e) => {
     setFiltro(e.target.value);
   };
 
-  // Función para obtener las sucursales filtradas del backend
   const fetchSucursales = async () => {
     try {
       const response = await fetch(`http://localhost:3500/sucursales?filtro=${filtro}`);
@@ -24,18 +22,15 @@ function FormSucursales() {
     }
   };
 
-  // UseEffect para cargar las sucursales cada vez que el filtro cambie
   useEffect(() => {
-    fetchSucursales(); // Llamar a fetchSucursales con el filtro
-  }, [filtro]); // Solo se ejecutará cuando filtro cambie
+    fetchSucursales();
+  }, [filtro]); 
 
-  // Función para abrir el modal con los detalles de la sucursal
   const handleVerDetalles = (sucursal) => {
     setSucursalSeleccionada(sucursal);
     setShowModal(true);
   };
 
-  // Función para cerrar el modal
   const closeModal = () => {
     setShowModal(false);
     setSucursalSeleccionada(null);
@@ -71,7 +66,6 @@ function FormSucursales() {
         ))}
       </div>
 
-      {/* Modal para mostrar el detalle de la sucursal */}
       <Modal showModal={showModal} onClose={closeModal}>
         {sucursalSeleccionada && (
           <div>
@@ -79,7 +73,6 @@ function FormSucursales() {
             <p><strong>Nombre:</strong> {sucursalSeleccionada.nombreSucursal}</p>
             <p><strong>ID:</strong> {sucursalSeleccionada.idSucursal}</p>
             <p><strong>Dirección:</strong> {sucursalSeleccionada.direccion}</p>
-            {/* Agrega más detalles si es necesario */}
           </div>
         )}
       </Modal>

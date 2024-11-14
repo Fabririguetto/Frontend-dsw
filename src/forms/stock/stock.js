@@ -26,7 +26,7 @@ function FormStock() {
     limit,
     setPage,  
     setLimit,
-    totalProductos,  // Asegúrate de tener este valor para mostrar la cantidad de páginas correctas
+    totalProductos,
   } = useStock();
 
   return (
@@ -124,7 +124,7 @@ function FormStock() {
               className='pagination'
               rowsPerPageOptions={[20, 30, 40]}
               colSpan={3}
-              count={totalProductos}  // Total de productos
+              count={totalProductos}
               rowsPerPage={limit}
               page={page}
               ActionsComponent={TablePaginationActions}

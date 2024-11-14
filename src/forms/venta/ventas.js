@@ -21,7 +21,7 @@ function FormVentas() {
   const handleFilterChange = (e) => {
     const nuevoFiltro = e.target.value;
     setFiltro(nuevoFiltro);
-    fetchVentas(nuevoFiltro); // Usar el valor actualizado directamente
+    fetchVentas(nuevoFiltro);
   };
 
   const handleDetalleClick = (venta) => {
@@ -30,7 +30,6 @@ function FormVentas() {
   };
 
   const handleCrearVenta = async () => {
-    // Validar los datos antes de crear la venta
     let montoTotal = -1
 
     if (!DNIEmpleado) {
@@ -43,7 +42,6 @@ function FormVentas() {
     }
 
     console.log(montoTotal, DNIEmpleado, clienteSeleccionado)
-    // Crear venta usando el ID del cliente válido
     const ventaCreada = await iniciarVenta(montoTotal, DNIEmpleado, clienteSeleccionado);
     if (ventaCreada) {
       const nuevaVentaId = ventaCreada.id_venta;
@@ -87,7 +85,7 @@ function FormVentas() {
           id="filtro-clientes"
           placeholder="Buscar por clientes o por empleados..."
           onChange={handleFilterChange}
-          value={filtro} // Agregar el valor del filtro
+          value={filtro}
         />
       </header>
 
@@ -137,7 +135,6 @@ function FormVentas() {
         </table>
       </div>
 
-      {/* Modal */}
       {isModalOpen && ventaSeleccionada && (
         <DetalleVenta
           venta={ventaSeleccionada}

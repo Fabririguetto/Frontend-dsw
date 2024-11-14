@@ -24,7 +24,6 @@ function App() {
 
         <div className="Content">
           <Routes>
-            {/* Ruta predeterminada que redirige a /ventas */}
             <Route path="/" element={<Navigate to="/ventas" />} />
 
             <Route path="/stock" element={<Stock />} />

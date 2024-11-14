@@ -1,4 +1,3 @@
-/* Estilo básico para el cuerpo */
 body {
   margin: 0;
   font-family: 'Roboto', sans-serif;
@@ -10,7 +9,6 @@ body {
   height: 100%;
 }
 
-/* Contenedor principal */
 #root {
   display: flex;
   flex-direction: column;
@@ -22,7 +20,6 @@ body {
   padding: 0px;
 }
 
-/* Contenedor de la aplicación para mobile */
 .App {
   background-color: #fff;
   color: #000;
@@ -37,7 +34,6 @@ body {
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
 }
 
-/* Encabezado */
 .App-header {
   background-color: #1e1e2f;
   color: white;
@@ -47,17 +43,16 @@ body {
   width: 100%;
 }
 
-/* Navegación (mobile) */
 nav {
   display: flex;
   justify-content: center;
-  gap: 8px; /* Cambiado para mobile */
+  gap: 8px; 
 }
 
 nav a {
   color: #61dafb;
   text-decoration: none;
-  font-size: 1em; /* Ajustado para mobile */
+  font-size: 1em; 
   font-weight: 500;
   transition: color 0.3s ease;
 }
@@ -66,18 +61,16 @@ nav a:hover {
   color: #21a1f1;
 }
 
-/* Enlace activo */
 nav a.active {
   color: #00ff2f;
   font-weight: bold;
 }
 
-/* Botones */
 button, .card-button {
   background-color: #1e1e2f;
   color: #fff;
   border: none;
-  padding: 8px 16px; /* Ajustado para mobile */
+  padding: 8px 16px; 
   border-radius: 4px;
   cursor: pointer;
   transition: background-color 0.3s ease;
@@ -92,23 +85,21 @@ button:focus, .card-button:focus {
   box-shadow: 0 0 5px #61dafb;
 }
 
-/* Contenedor de tarjetas (mobile) */
 .card-container {
   display: flex;
   flex-wrap: wrap;
   gap: 12px;
   justify-content: center;
-  padding: 10px; /* Ajustado para mobile */
+  padding: 10px;
   width: 100%;
 }
 
-/* Tarjetas (mobile) */
 .card {
   background-color: #fff;
   border-radius: 8px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  max-width: 100%; /* Ajustado para mobile */
-  padding: 12px; /* Ajustado para mobile */
+  max-width: 100%;
+  padding: 12px; 
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
@@ -118,7 +109,7 @@ button:focus, .card-button:focus {
 }
 
 .card-title {
-  font-size: 1.1em; /* Ajustado para mobile */
+  font-size: 1.1em;
   font-weight: bold;
   color: #333;
   margin-bottom: 8px;
@@ -126,7 +117,7 @@ button:focus, .card-button:focus {
 }
 
 .card-text {
-  font-size: 0.9em; /* Ajustado para mobile */
+  font-size: 0.9em; 
   margin-bottom: 12px;
   color: #555;
 }
@@ -136,10 +127,9 @@ button:focus, .card-button:focus {
   justify-content: center;
 }
 
-/* Formularios */
 input, select {
   width: 100%;
-  padding: 10px; /* Ajustado para mobile */
+  padding: 10px;
   margin: 10px 0;
   border: 1px solid #ccc;
   border-radius: 4px;
@@ -160,12 +150,9 @@ input:focus, select:focus {
   margin-top: 20px;
 }
 
-/* Media Queries */
-
-/* Para pantallas más grandes que 768px */
 @media (min-width: 768px) {
   .card-container {
-    gap: 20px; /* Aumentado para pantallas grandes */
+    gap: 20px; 
   }
 
   .card {
@@ -186,7 +173,6 @@ input:focus, select:focus {
   }
 }
 
-/* Para pantallas extra grandes (1200px en adelante) */
 @media (min-width: 1200px) {
   .App {
     max-width: 100%;

@@ -17,7 +17,6 @@ function FormClientes() {
   const [contacto, setContacto] = useState('');
   const [idCliente, setIdCliente] = useState('');
 
-  // Función para ingresar o modificar un cliente
   const handleIngresar = (event) => {
     event.preventDefault();
 
@@ -29,13 +28,12 @@ function FormClientes() {
     };
 
     if (idCliente) {
-      updateCliente(idCliente, cliente); // Modificar cliente existente
+      updateCliente(idCliente, cliente);
     } else {
-      createCliente(cliente); // Crear nuevo cliente
+      createCliente(cliente);
     }
   };
 
-  // Función para editar los datos de un cliente
   const handleEdit = (cliente) => {
     setIdCliente(cliente.idCliente);
     setDni(cliente.dni);
@@ -44,7 +42,6 @@ function FormClientes() {
     setContacto(cliente.contacto);
   };
 
-  // Resetear el formulario después de la acción
   const resetForm = () => {
     setIdCliente('');
     setDni('');
@@ -53,7 +50,6 @@ function FormClientes() {
     setContacto('');
   };
 
-  // Renderizar los clientes en la tabla
   const renderClientes = () => {
     if (clientes.length === 0) {
       return (
@@ -84,7 +80,7 @@ function FormClientes() {
           type="text"
           id="filtro-clientes"
           placeholder="Buscar clientes por nombre o DNI..."
-          onChange={(e) => handleSearchClientes(e.target.value)} // Manejar búsqueda
+          onChange={(e) => handleSearchClientes(e.target.value)}
         />
       </header>
 

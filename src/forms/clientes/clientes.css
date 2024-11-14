@@ -1,4 +1,3 @@
-/* Estilos para el formulario de clientes */
 #form-clientes {
   background-color: #fff;
   padding: 20px;
@@ -6,13 +5,12 @@
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
-/* Estilos para el input de búsqueda de clientes */
 #filtro-clientes,
 #dni-form,
 #nombreApellido-form,
 #direccion-form,
 #contacto-form,
-#idCliente-form { /* Incluye el campo de ID Cliente */
+#idCliente-form {
   width: 80%;
   padding: 10px;
   font-size: 1rem;
@@ -22,9 +20,8 @@
   margin-bottom: 10px;
 }
 
-/* Estilos para el botón de ingresar cliente */
 #ingresarCliente-form,
-#botmod-cliente { /* Aplica los mismos estilos a ambos botones */
+#botmod-cliente {
   padding: 10px;
   font-size: 1rem;
   border-radius: 5px;
@@ -42,7 +39,6 @@
   background-color: #218838;
 }
 
-/* Estilo para el botón de modificación */
 #botmod-cliente {
   background-color: #ffc107;
   border: none;

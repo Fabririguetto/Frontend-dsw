@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import './detalle_Venta.css'; // Asegúrate de tener los estilos de modal en un archivo CSS
+import './detalle_Venta.css';
 
 function DetalleVenta({ venta, closeModal }) {
   const [detallesVenta, setDetallesVenta] = useState([]);
-  const [loading, setLoading] = useState(true); // Estado de carga
+  const [loading, setLoading] = useState(true); 
 
   useEffect(() => {
-    setLoading(true); // Empieza a cargar los datos
+    setLoading(true); 
     fetch(`http://localhost:3500/detalle_ventas/${venta.idVenta}`)
       .then((response) => response.json())
       .then((data) => {
@@ -14,13 +14,13 @@ function DetalleVenta({ venta, closeModal }) {
           setDetallesVenta(data);
         } else {
           console.error('Error: La respuesta no es un array', data);
-          setDetallesVenta([]); // Si no es un array, inicializamos como array vacío
+          setDetallesVenta([]);
         }
-        setLoading(false); // Finaliza la carga
+        setLoading(false); 
       })
       .catch((error) => {
         console.error('Error fetching venta:', error);
-        setLoading(false); // En caso de error, finaliza la carga
+        setLoading(false);
       });
   }, [venta]);
 

@@ -1,4 +1,3 @@
-/* Contenedor de tarjetas */
 .card-container {
     display: flex;
     flex-wrap: wrap;
@@ -7,7 +6,6 @@
     width: 100%;
 }
 
-/* Tarjetas de empleados */
 .card {
     background-color: #fff;
     border-radius: 8px;
@@ -17,13 +15,11 @@
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-/* Efecto al pasar el cursor sobre la tarjeta */
 .card:hover {
     transform: translateY(-5px);
     box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
 }
 
-/* Títulos y texto en las tarjetas */
 .card-title {
     font-size: 1.2em;
     font-weight: bold;
@@ -38,16 +34,14 @@
     margin-bottom: 10px;
 }
 
-/* Contenedor de botones en la tarjeta */
 .button-container {
     display: flex;
-    flex-direction: column; /* Cambiar la dirección a columna */
-    align-items: center; /* Alinear los botones al centro */
-    gap: 10px; /* Espacio entre los botones */
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
     margin-top: 12px;
 }
 
-/* Botones en la tarjeta */
 .card-button {
     background-color: #28a745;
     color: #fff;
@@ -57,15 +51,13 @@
     cursor: pointer;
     font-size: 14px;
     transition: background-color 0.3s ease;
-    width: 100%; /* Aseguramos que los botones ocupen todo el ancho de la tarjeta */
+    width: 100%; 
 }
 
-/* Efecto hover de los botones */
 .card-button:hover {
     background-color: #218838;
 }
 
-/* Estilo para el botón de Modificar */
 .card-button-modificar {
     background-color: #ffc107;
 }
@@ -74,7 +66,6 @@
     background-color: #e0a800;
 }
 
-/* Estilo para el botón de Eliminar */
 .card-button-eliminar {
     background-color: #dc3545;
 }
@@ -82,7 +73,7 @@
 .card-button-eliminar:hover {
     background-color: #c82333;
 }
-/* Estilo de contenedor de las tarjetas de empleados */
+
 .card-container-empleados {
     display: flex;
     flex-wrap: wrap;
@@ -91,7 +82,6 @@
     width: 100%;
 }
 
-/* Media Queries */
 @media (max-width: 768px) {
     .card {
         width: 100%;

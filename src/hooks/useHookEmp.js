@@ -128,7 +128,7 @@ const useEmpleados = () => {
     setSucursal,
     handleIngresar,
     handleSelectEmpleado,
-    handleSearchEmpleados, // Asegúrate de exportar la función
+    handleSearchEmpleados,
     isEditMode,
     resetForm,
   };
